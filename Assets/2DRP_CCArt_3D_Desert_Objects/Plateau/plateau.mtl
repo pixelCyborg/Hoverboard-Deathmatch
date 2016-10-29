@@ -1,0 +1,12 @@
+# Blender MTL File: 'plateau.blend'
+# Material Count: 1
+
+newmtl Plateau
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.321582 0.147580 0.041016
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd ../Textures/uvt_plateau.png
