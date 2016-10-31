@@ -16,16 +16,26 @@ public class MovementController : MonoBehaviour {
     private Rigidbody body;
     private float velocity = 0;
     private float turnVel = 0;
-    private Vector3 velDirection;
-
     public GameObject[] physicsPoints;
     public float distanceToGround = 0.5f;
 
-    Vector3 moveDirection = Vector3.zero;
+    Vector3 oldPosition;
+
     public bool drifting = false;
+    public bool boosting = false;
 
     public float turn = 0;
     public float thrust = 0;
+
+    private float origTurnSpeed;
+    private float origTurnMax;
+    private float origAcceleration;
+    private float origTopSpeed;
+
+    public Vector3 velDirection;
+    public Vector3 DEBUG_velIntermediate;
+    private Vector3 oldVelDirection;
+    private Vector3 oldVelocity;
 
     LayerMask groundmask;
 
@@ -33,26 +43,79 @@ public class MovementController : MonoBehaviour {
 	void Start () {
         body = GetComponent<Rigidbody>();
         groundmask = 1 << LayerMask.NameToLayer("Terrain");
-        moveDirection = transform.position;
+        oldPosition = transform.position;
+        origTurnMax = turnMax;
+        origTurnSpeed = turnSpeed;
+        origAcceleration = acceleration;
+        origTopSpeed = topSpeed;
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update() {
+        if (boosting)
+        {
+            topSpeed = origTopSpeed * 1.5f;
+            turnMax = origTurnMax * 0.33f;
+        }
+        else
+        {
+            topSpeed = origTopSpeed;
+            turnMax = origTurnMax;
+        }
+
         if (drifting && Grounded())
         {
+            turnSpeed = origTurnSpeed * 2;
+            turnMax = origTurnMax * 3;
+
             Drift();
             Turn();
         }
         else
         {
+            turnSpeed = origTurnSpeed;
+            turnMax = origTurnMax;
+
             Move();
             Turn();
         }
     }
+
     void Drift()
     {
-        body.MovePosition(transform.position + (velDirection.normalized * velocity) * 0.01f);
+        velocity *= decellerationFactor + (decellerationFactor / 100.0f);
+        body.MovePosition(transform.position + (velDirection.normalized * velocity) * Time.deltaTime * 0.66f);
     }
+
+    void Move()
+    {
+        velocity *= decellerationFactor;
+        if (thrust < 0)
+        {
+            thrust = 0;
+        }
+
+        //Calculate velocity
+        velocity += (thrust * acceleration);
+        //Limit the velocity
+        if (velocity > topSpeed) velocity = topSpeed;
+        else if (velocity < -topSpeed) velocity = -topSpeed;
+        //If were moving forward calculate the direction to go in
+        velDirection = (transform.forward * velocity + velDirection) / 2;
+
+        Vector3 targetPosition = transform.position + (velDirection.normalized * velocity * Time.deltaTime * 0.66f);
+        body.MovePosition(targetPosition);
+        oldPosition = transform.position;
+        oldVelocity = oldPosition - transform.position;
+    }
+
+    /*
+    last_acceleration = acceleration
+    position += velocity * time_step + ( 0.5 * last_acceleration * time_step^2 )
+    new_acceleration = force / mass 
+    avg_acceleration = ( last_acceleration + new_acceleration ) / 2
+    velocity += avg_acceleration * time_step
+    */
 
     void Turn()
     {
@@ -67,31 +130,6 @@ public class MovementController : MonoBehaviour {
         }
     }
 
-    void Move()
-    {
-        velocity *= decellerationFactor;
-
-        if (thrust < 0)
-        {
-            thrust = 0;
-        }
-
-        //Calculate velocity
-        velocity += (thrust * acceleration);
-        if (velocity > topSpeed) velocity = topSpeed;
-        else if (velocity < -topSpeed) velocity = -topSpeed;
-
-        if (thrust > 0 || thrust < 0)
-        {
-            velDirection = ((transform.forward * thrust) + velDirection) /2;
-        }
-
-        Vector3 targetPosition = transform.position + (velDirection.normalized * velocity) * 0.01f;
-
-        body.MovePosition(targetPosition);
-
-        moveDirection = moveDirection - transform.position;
-    }
 
     public float angularStability = 0.3f;
     public float correctionSpeed = 2.0f;
@@ -118,7 +156,14 @@ public class MovementController : MonoBehaviour {
         board.localRotation = Quaternion.Lerp(board.localRotation, Quaternion.Euler(boardRot), Time.deltaTime *2);
     }
 
-
+    void ResetMovement()
+    {
+        turn = 0;
+        thrust = 0;
+        velDirection = Vector3.zero;
+        oldPosition = transform.position;
+        oldVelocity = Vector3.zero;
+    }
 
 
 }

@@ -22,7 +22,7 @@ public class MainCamera : MonoBehaviour {
 	void FixedUpdate () {
         transform.position = SuperSmoothLerp(transform.position, oldPosition, target.position + displacement, Time.fixedDeltaTime, 10);
         oldPosition = target.position + displacement;
-        camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, originalSize + Vector3.Distance(transform.position, oldPosition) * speedScaling, Time.deltaTime * 2);
+        camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, originalSize + Vector3.Distance(transform.position, oldPosition) * speedScaling, Time.fixedDeltaTime * 2);
 	}
 
     Vector3 SuperSmoothLerp(Vector3 x0, Vector3 y0, Vector3 yt, float t, float k)
