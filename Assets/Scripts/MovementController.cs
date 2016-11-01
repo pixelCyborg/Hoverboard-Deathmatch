@@ -33,16 +33,20 @@ public class MovementController : MonoBehaviour {
     private float origTopSpeed;
 
     public Vector3 velDirection;
-    public Vector3 DEBUG_velIntermediate;
     private Vector3 oldVelDirection;
     private Vector3 oldVelocity;
+    public PlayerController.ControlType controlType = PlayerController.ControlType.Keyboard;
+
+    public Vector3 moveDirection = Vector3.zero;
 
     LayerMask groundmask;
+    LayerMask obstacleMask;
 
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>();
         groundmask = 1 << LayerMask.NameToLayer("Terrain");
+        obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
         oldPosition = transform.position;
         origTurnMax = turnMax;
         origTurnSpeed = turnSpeed;
@@ -52,32 +56,53 @@ public class MovementController : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+        moveDirection.x = turn;
+        moveDirection.z = thrust;
+
         if (boosting)
         {
             topSpeed = origTopSpeed * 1.5f;
-            turnMax = origTurnMax * 0.33f;
         }
         else
         {
             topSpeed = origTopSpeed;
-            turnMax = origTurnMax;
         }
 
-        if (drifting && Grounded())
+        if (/*controlType == PlayerController.ControlType.Keyboard*/true)
         {
-            turnSpeed = origTurnSpeed * 2;
-            turnMax = origTurnMax * 3;
+            if (drifting && Grounded())
+            {
+                turnSpeed = origTurnSpeed * 2;
+                turnMax = origTurnMax * 3;
 
-            Drift();
-            Turn();
+                Drift();
+                Turn();
+            }
+            else
+            {
+                turnSpeed = origTurnSpeed;
+                turnMax = origTurnMax;
+
+                Move();
+                Turn();
+            }
         }
         else
         {
-            turnSpeed = origTurnSpeed;
-            turnMax = origTurnMax;
+            if (drifting && Grounded())
+            {
+                turnSpeed = origTurnSpeed * 2;
+                turnMax = origTurnMax * 3;
 
-            Move();
-            Turn();
+                MoveInDirection();
+            }
+            else
+            {
+                turnSpeed = origTurnSpeed;
+                turnMax = origTurnMax;
+
+                MoveInDirection();
+            }
         }
     }
 
@@ -85,6 +110,39 @@ public class MovementController : MonoBehaviour {
     {
         velocity *= decellerationFactor + (decellerationFactor / 100.0f);
         body.MovePosition(transform.position + (velDirection.normalized * velocity) * Time.deltaTime * 0.66f);
+    }
+
+    void MoveInDirection()
+    {
+        thrust *= decellerationFactor;
+        thrust += moveDirection.magnitude * acceleration;
+
+        if (moveDirection.magnitude > 0)
+        {
+            Vector3 targetDir = Vector3.RotateTowards(transform.forward, moveDirection, turnSpeed * 0.01f, turnMax * 0.1f);
+            transform.rotation = Quaternion.LookRotation(targetDir);
+        }
+        body.MovePosition(transform.position + transform.forward * thrust * 0.2f);
+
+        /*        velocity *= decellerationFactor;
+                if (thrust < 0)
+                {
+                    thrust = 0;
+                }
+
+                //Calculate velocity
+                velocity += (thrust * acceleration);
+                //Limit the velocity
+                if (velocity > topSpeed) velocity = topSpeed;
+                else if (velocity < -topSpeed) velocity = -topSpeed;
+                //If were moving forward calculate the direction to go in
+                velDirection = (transform.forward * velocity + velDirection) / 2;
+
+                Vector3 targetPosition = transform.position + (velDirection.normalized * velocity * Time.deltaTime * 0.66f);
+                body.MovePosition(targetPosition);
+                oldPosition = transform.position;
+                oldVelocity = oldPosition - transform.position;
+        */
     }
 
     void Move()
@@ -104,25 +162,28 @@ public class MovementController : MonoBehaviour {
         velDirection = (transform.forward * velocity + velDirection) / 2;
 
         Vector3 targetPosition = transform.position + (velDirection.normalized * velocity * Time.deltaTime * 0.66f);
-        body.MovePosition(targetPosition);
+        if (!Physics.Raycast(transform.position, transform.position - targetPosition, 2, obstacleMask)) {
+            body.MovePosition(targetPosition);
+        }
         oldPosition = transform.position;
         oldVelocity = oldPosition - transform.position;
     }
 
-    /*
-    last_acceleration = acceleration
-    position += velocity * time_step + ( 0.5 * last_acceleration * time_step^2 )
-    new_acceleration = force / mass 
-    avg_acceleration = ( last_acceleration + new_acceleration ) / 2
-    velocity += avg_acceleration * time_step
-    */
-
     void Turn()
     {
         turnVel *= turnDeceleration;
-        turnVel += turn * turnSpeed;
-        if (turnVel > turnMax) turnVel = turnMax;
-        else if (turnVel < -turnMax) turnVel = -turnMax;
+        if (!boosting)
+        {
+            turnVel += turn * turnSpeed;
+            if (turnVel > turnMax) turnVel = turnMax;
+            else if (turnVel < -turnMax) turnVel = -turnMax;
+        }
+        else
+        {
+            turnVel += turn * turnSpeed * 0.2f;
+            if (turnVel > turnMax) turnVel = turnMax * 0.2f;
+            else if (turnVel < -turnMax) turnVel = -turnMax * 0.2f;
+        }
         body.MoveRotation(transform.rotation * Quaternion.Euler(new Vector3(0, turnVel * 0.03f, 0)));
         if (Grounded())
         {

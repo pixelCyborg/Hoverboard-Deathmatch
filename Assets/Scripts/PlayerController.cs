@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour {
     public ControlType controlType;
     public Player player;
     private string playerControlString = "";
+    LayerMask obstacleMask;
 
 	// Use this for initialization
 	void Start () {
@@ -40,8 +41,15 @@ public class PlayerController : MonoBehaviour {
                 break;
         }
         myCamera = transform.parent.GetComponentInChildren<Camera>();
+        if(myCamera == null)
+        {
+            myCamera = Camera.main;
+        }
         movement = GetComponent<MovementController>();
         combat = GetComponent<CombatController>();
+        movement.controlType = controlType;
+        obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
+        obstacleMask = ~obstacleMask;
 	}
 	
 	// Update is called once per frame
@@ -50,7 +58,6 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Boost" + playerControlString))
         {
-            Debug.Log("Boosting?");
             movement.boosting = true;
         }
         if (Input.GetButtonUp("Boost" + playerControlString))
@@ -58,9 +65,8 @@ public class PlayerController : MonoBehaviour {
             movement.boosting = false;
         }
 
-        if (!movement.boosting && Input.GetButtonDown("Drift" + playerControlString))
+        if (Input.GetButtonDown("Drift" + playerControlString))
         {
-            Debug.Log("Drifting");
             movement.drifting = true;
         }
         if (Input.GetButtonUp("Drift" + playerControlString))
@@ -78,7 +84,7 @@ public class PlayerController : MonoBehaviour {
             target = Vector3.zero;
             if (controlType == ControlType.Keyboard)
             {
-                Physics.Raycast(myCamera.ViewportPointToRay(myCamera.ScreenToViewportPoint(Input.mousePosition)), out hit);
+                Physics.Raycast(myCamera.ViewportPointToRay(myCamera.ScreenToViewportPoint(Input.mousePosition)), out hit, 1000, obstacleMask);
                 target = hit.point;
                 target.y = transform.position.y;
             }
@@ -86,10 +92,9 @@ public class PlayerController : MonoBehaviour {
             {
                 Vector3 viewportDirection = lookDirection + new Vector3(1, 1, 0);
                 viewportDirection *= 0.5f;
-                Debug.Log(viewportDirection);
-                Physics.Raycast(myCamera.ViewportPointToRay(viewportDirection), out hit);
+                Physics.Raycast(myCamera.ViewportPointToRay(viewportDirection), out hit, 1000, obstacleMask);
                 target = hit.point;
-                target.y = transform.position.y;
+                target.y += 1;
             }
 
             combat.Attack(target);
@@ -102,7 +107,6 @@ public class PlayerController : MonoBehaviour {
 
         movement.turn = Input.GetAxis("Horizontal" + playerControlString);
         movement.thrust = Input.GetAxis("Vertical" + playerControlString);
-
     }
 
     void OnDrawGizmos()

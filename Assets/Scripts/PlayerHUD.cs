@@ -52,6 +52,10 @@ public class PlayerHUD : MonoBehaviour {
                 aimCursor.localRotation = Quaternion.LookRotation(Vector3.forward, -control.lookDirection);
             }
         }
+        else
+        {
+            aimCursorIcon.enabled = false;
+        }
     }
 
     public Vector2 WorldToCanvasPoint(Vector3 target)

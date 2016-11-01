@@ -84,12 +84,7 @@ public class AiController : MonoBehaviour {
 
     void TurnDecision()
     {
-        if(Physics.Raycast(transform.position, transform.forward, 25, ~mask))
-        {
-            turnSpeed = 1;
-            moveSpeed = 0.5f;
-        }
-        else if (target == null)
+        if (target == null)
         {
             float turnDirection = Random.Range(-100, 100);
             turnSpeed = turnDirection / 100.0f;
