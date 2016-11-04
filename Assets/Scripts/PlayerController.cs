@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour {
     Camera myCamera;
     public Vector3 lookDirection;
     Vector3 target;
+    private Transform aimReticle;
+    private Renderer reticleRend;
 
     public enum ControlType
     {
@@ -20,6 +22,9 @@ public class PlayerController : MonoBehaviour {
     public Player player;
     private string playerControlString = "";
     LayerMask obstacleMask;
+    private bool charging = false;
+
+    Vector3 lastLookDirection;
 
 	// Use this for initialization
 	void Start () {
@@ -48,8 +53,10 @@ public class PlayerController : MonoBehaviour {
         movement = GetComponent<MovementController>();
         combat = GetComponent<CombatController>();
         movement.controlType = controlType;
-        obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
-        obstacleMask = ~obstacleMask;
+        obstacleMask = ~(1 << LayerMask.NameToLayer("Obstacle"));
+        //obstacleMask = ~obstacleMask;
+        aimReticle = transform.Find("AimReticle");
+        reticleRend = aimReticle.GetComponent<Renderer>();
 	}
 	
 	// Update is called once per frame
@@ -73,31 +80,47 @@ public class PlayerController : MonoBehaviour {
         {
             movement.drifting = false;
         }
-
+        //Keyboard Fire mechanism
         if(Input.GetButtonDown("Fire" + playerControlString))
         {
-            combat.Charge();
+            if (controlType == ControlType.Keyboard)
+            {
+                combat.Charge();
+            }
+            else { 
+                RaycastHit hit;
+                target = Vector3.zero;
+                Vector3 direction = new Vector3(lookDirection.x, 0, lookDirection.y) * 10.0f;
+                Physics.Raycast(transform.position + direction + Vector3.up * 50, Vector3.down, out hit, 1000, obstacleMask);
+                target = hit.point;
+                target.y += 1;
+                combat.Attack(target);
+                charging = false;
+            }
         }
         if(Input.GetButtonUp("Fire" + playerControlString))
         {
-            RaycastHit hit;
-            target = Vector3.zero;
             if (controlType == ControlType.Keyboard)
             {
-                Physics.Raycast(myCamera.ViewportPointToRay(myCamera.ScreenToViewportPoint(Input.mousePosition)), out hit, 1000, obstacleMask);
-                target = hit.point;
-                target.y = transform.position.y;
-            }
-            else
-            {
-                Vector3 viewportDirection = lookDirection + new Vector3(1, 1, 0);
-                viewportDirection *= 0.5f;
-                Physics.Raycast(myCamera.ViewportPointToRay(viewportDirection), out hit, 1000, obstacleMask);
+                RaycastHit hit;
+                target = Vector3.zero;
+                Physics.Raycast(myCamera.ScreenPointToRay(Input.mousePosition), out hit, 1000, obstacleMask);
+                Debug.Log(hit.point);
                 target = hit.point;
                 target.y += 1;
+                //target.y = transform.position.y;
+                combat.Attack(target);
             }
+        }
 
-            combat.Attack(target);
+        if (lookDirection.magnitude > 0 && !charging)
+        {
+            combat.Charge();
+            charging = true;
+        }
+        else if(lookDirection.magnitude < 0.1f)
+        {
+            charging = false;
         }
 
         if(Input.GetButtonDown("Drop" + playerControlString))
@@ -107,10 +130,23 @@ public class PlayerController : MonoBehaviour {
 
         movement.turn = Input.GetAxis("Horizontal" + playerControlString);
         movement.thrust = Input.GetAxis("Vertical" + playerControlString);
+
+        if (lookDirection.magnitude > 0.5f)
+        {
+            Vector3 targetDir = Vector3.RotateTowards(aimReticle.forward, new Vector3(-lookDirection.x, 0, -lookDirection.y), 1.0f, 0.0f);
+            aimReticle.rotation = Quaternion.LookRotation(targetDir);
+            reticleRend.enabled = true;
+        }
+        else
+        {
+            reticleRend.enabled = false;
+        }
+
+        lastLookDirection = lookDirection;
     }
 
     void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(target, 0.25f);
+        Gizmos.DrawSphere(target, 2.0f);
     }
 }

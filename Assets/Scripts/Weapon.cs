@@ -4,7 +4,7 @@ using System.Collections;
 public class Weapon : MonoBehaviour {
     public enum WeaponType
     {
-        Melee, Thrown
+        Melee, Thrown, Ball
     }
 
     public WeaponType type;
@@ -95,6 +95,7 @@ public class Weapon : MonoBehaviour {
         body.constraints = RigidbodyConstraints.None;
         assignedSlot = null;
         myCollider.isTrigger = false;
+        active = false;
         IgnoreCollisionWithUser(false);
     }
 
@@ -105,7 +106,7 @@ public class Weapon : MonoBehaviour {
 
     public void Attack(Vector3 target, CombatController controller)
     {
-        if(type == WeaponType.Thrown)
+        if(type == WeaponType.Thrown || type == WeaponType.Ball)
         {
             charge = (Time.time - chargeStart) * 3;
             if (charge > maxCharge) charge = maxCharge;
@@ -119,20 +120,21 @@ public class Weapon : MonoBehaviour {
     {
         yield return new WaitForEndOfFrame();
         //target = target.normalized * 20;
-        target.y += charge;
+        target.y += charge * 0.5f;
         transform.LookAt(target);
         body.AddForce(transform.forward * charge * speed, ForceMode.Impulse);
         lastTarget = target;
         active = true;
         IgnoreCollisionWithUser(controller, true);
-        GetComponent<CapsuleCollider>().radius = 2f;
+        if (GetComponent<CapsuleCollider>())
+        {
+            GetComponent<CapsuleCollider>().radius = 2f;
+        }
     }
 
     public float GetDamage(CombatController controller, Collision col)
     {
         controller.hitSlot = col.contacts[0].otherCollider.transform;
-        transform.SetParent(controller.hitSlot);
-        body.useGravity = false;
         assignedSlot = null;
         StartCoroutine(_GetDamage(controller, col.relativeVelocity));
         return damage;
@@ -140,23 +142,31 @@ public class Weapon : MonoBehaviour {
 
     IEnumerator _GetDamage(CombatController controller, Vector3 velocity)
     {
-        myCollider.enabled = false;
-        body.velocity = oldVelocity;
-        yield return new WaitForSeconds(0.05f);
-        body.velocity = Vector3.zero;
-        body.isKinematic = true;
+        if (type == WeaponType.Thrown)
+        {
+            transform.SetParent(controller.hitSlot);
+            body.useGravity = false;
+            myCollider.enabled = false;
+            body.velocity = oldVelocity;
+            yield return new WaitForSeconds(0.05f);
+            body.velocity = Vector3.zero;
+            body.isKinematic = true;
+        }
         yield return new WaitForEndOfFrame();
 
         Rigidbody[] hitBodies = controller.GetComponentsInChildren<Rigidbody>();
         for (int i = 0; i < hitBodies.Length; i++)
         {
-           hitBodies[i].AddExplosionForce(50, transform.position, 5, 0, ForceMode.Impulse);
+           hitBodies[i].AddExplosionForce(50, transform.position, 25, 0, ForceMode.Impulse);
         }
 
-        yield return new WaitForSeconds(0.9f);
-        weaponUsed = true;
-        active = false;
-        MapController.SpawnSpear();
+        if (type == WeaponType.Thrown)
+        {
+            yield return new WaitForSeconds(0.9f);
+            weaponUsed = true;
+            active = false;
+            MapController.SpawnSpear();
+        }
     }
 
     void IgnoreCollisionWithUser(CombatController controller, bool shouldIgnore)
@@ -166,7 +176,10 @@ public class Weapon : MonoBehaviour {
     }
     void IgnoreCollisionWithUser(bool shouldIgnore)
     {
-        GetComponent<CapsuleCollider>().radius = 0.5f;
+        if (GetComponent<CapsuleCollider>())
+        {
+            GetComponent<CapsuleCollider>().radius = 0.5f;
+        }
         if (ignoringColliders != null)
         {
             for (int i = 0; i < ignoringColliders.Length; i++)

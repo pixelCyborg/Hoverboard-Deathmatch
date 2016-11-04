@@ -158,8 +158,10 @@ public class MovementController : MonoBehaviour {
         //Limit the velocity
         if (velocity > topSpeed) velocity = topSpeed;
         else if (velocity < -topSpeed) velocity = -topSpeed;
+        Vector3 flatForward = transform.forward;
+        flatForward.y *= 0.33f;
         //If were moving forward calculate the direction to go in
-        velDirection = (transform.forward * velocity + velDirection) / 2;
+        velDirection = (flatForward * velocity + velDirection) / 2;
 
         Vector3 targetPosition = transform.position + (velDirection.normalized * velocity * Time.deltaTime * 0.66f);
         if (!Physics.Raycast(transform.position, transform.position - targetPosition, 2, obstacleMask)) {

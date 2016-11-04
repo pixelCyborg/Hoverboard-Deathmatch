@@ -35,6 +35,7 @@ public class CombatController : MonoBehaviour {
 
     private void Ragdoll()
     {
+        if (equippedWeapon != null) Drop();
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         GetComponent<MovementController>().enabled = false;
         GetComponentInChildren<RagdollController>().Ragdoll();
@@ -85,6 +86,7 @@ public class CombatController : MonoBehaviour {
         if (equippedWeapon != null)
         {
             equippedWeapon.Drop(this);
+            equippedWeapon = null;
         }
     }
 }
