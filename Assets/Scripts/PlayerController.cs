@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
@@ -23,6 +24,9 @@ public class PlayerController : MonoBehaviour {
     private string playerControlString = "";
     LayerMask obstacleMask;
     private bool charging = false;
+
+    public Color playerColor;
+    Text scoreText;
 
     Vector3 lastLookDirection;
 
@@ -57,6 +61,21 @@ public class PlayerController : MonoBehaviour {
         //obstacleMask = ~obstacleMask;
         aimReticle = transform.Find("AimReticle");
         reticleRend = aimReticle.GetComponent<Renderer>();
+
+        //Set Colors
+        //aimReticle.GetComponent<Renderer>().material.color = playerColor;
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        for(int i = 0; i < renderers.Length; i++)
+        {
+            if(renderers[i].gameObject == aimReticle.gameObject)
+            {
+                renderers[i].material.color = playerColor;
+            }
+            else
+            {
+                renderers[i].material.SetColor("_OutlineColor", playerColor);
+            }
+        }
 	}
 	
 	// Update is called once per frame
