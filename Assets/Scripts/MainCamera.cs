@@ -19,10 +19,12 @@ public class MainCamera : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
-        transform.position = SuperSmoothLerp(transform.position, oldPosition, target.position + displacement, Time.fixedDeltaTime, 10);
+	void Update () {
+        //transform.position = SuperSmoothLerp(transform.position, oldPosition, target.position - transform.forward * 10.0f, Time.fixedDeltaTime, 10);
+        transform.position = target.position - target.forward * 10 + Vector3.up * 5;
+        transform.LookAt(target.transform.position + Vector3.up * 5);
         oldPosition = target.position + displacement;
-        camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, originalSize + Vector3.Distance(transform.position, oldPosition) * speedScaling, Time.fixedDeltaTime * 2);
+        //camera.orthographicSize = Mathf.Lerp(camera.orthographicSize, originalSize + Vector3.Distance(transform.position, oldPosition) * speedScaling, Time.fixedDeltaTime * 2);
 	}
 
     Vector3 SuperSmoothLerp(Vector3 x0, Vector3 y0, Vector3 yt, float t, float k)
