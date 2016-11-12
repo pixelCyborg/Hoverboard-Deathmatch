@@ -120,7 +120,6 @@ public class Weapon : MonoBehaviour {
     {
         yield return new WaitForEndOfFrame();
         //target = target.normalized * 20;
-        target.y += charge * 0.5f;
         transform.LookAt(target);
         body.AddForce(transform.forward * charge * speed, ForceMode.Impulse);
         lastTarget = target;

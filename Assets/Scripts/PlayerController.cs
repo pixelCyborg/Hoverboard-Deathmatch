@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     Vector3 target;
     private Transform aimReticle;
     private Renderer reticleRend;
+    private ThirdPersonOrbitCam playerCam;
 
     public enum ControlType
     {
@@ -61,6 +62,7 @@ public class PlayerController : MonoBehaviour {
         //obstacleMask = ~obstacleMask;
         aimReticle = transform.Find("AimReticle");
         reticleRend = aimReticle.GetComponent<Renderer>();
+        playerCam = transform.parent.GetComponentInChildren<ThirdPersonOrbitCam>();
 
         //Set Colors
         //aimReticle.GetComponent<Renderer>().material.color = playerColor;
@@ -76,6 +78,7 @@ public class PlayerController : MonoBehaviour {
                 renderers[i].material.SetColor("_OutlineColor", playerColor);
             }
         }
+        reticleRend.enabled = false;
 	}
 	
 	// Update is called once per frame
@@ -84,10 +87,12 @@ public class PlayerController : MonoBehaviour {
 
         if (Input.GetButtonDown("Boost" + playerControlString))
         {
+            playerCam.targetFOV = playerCam.defaultFOV * 1.5f;
             movement.boosting = true;
         }
         if (Input.GetButtonUp("Boost" + playerControlString))
         {
+            playerCam.targetFOV = playerCam.defaultFOV;
             movement.boosting = false;
         }
 
@@ -102,20 +107,7 @@ public class PlayerController : MonoBehaviour {
         //Keyboard Fire mechanism
         if(Input.GetButtonDown("Fire" + playerControlString))
         {
-            if (controlType == ControlType.Keyboard)
-            {
-                combat.Charge();
-            }
-            else { 
-                RaycastHit hit;
-                target = Vector3.zero;
-                Vector3 direction = new Vector3(lookDirection.x, 0, lookDirection.y) * 10.0f;
-                Physics.Raycast(transform.position + direction + Vector3.up * 50, Vector3.down, out hit, 1000, obstacleMask);
-                target = hit.point;
-                target.y += 1;
-                combat.Attack(target);
-                charging = false;
-            }
+            combat.Charge();
         }
         if(Input.GetButtonUp("Fire" + playerControlString))
         {
@@ -130,8 +122,16 @@ public class PlayerController : MonoBehaviour {
                 //target.y = transform.position.y;
                 combat.Attack(target);
             }
+            else
+            {
+                Vector3 target = Vector3.zero;
+                Transform camTransform = myCamera.transform;
+                target = camTransform.position + camTransform.forward * 100;
+                combat.Attack(target);
+            }
         }
 
+        /*
         if (lookDirection.magnitude > 0 && !charging)
         {
             combat.Charge();
@@ -140,7 +140,7 @@ public class PlayerController : MonoBehaviour {
         else if(lookDirection.magnitude < 0.1f)
         {
             charging = false;
-        }
+        }*/
 
         if(Input.GetButtonDown("Drop" + playerControlString))
         {
@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour {
         movement.turn = Input.GetAxis("Horizontal" + playerControlString);
         movement.thrust = Input.GetAxis("Vertical" + playerControlString);
 
-        if (lookDirection.magnitude > 0.5f)
+        /*if (lookDirection.magnitude > 0.5f)
         {
             Vector3 targetDir = Vector3.RotateTowards(aimReticle.forward, new Vector3(-lookDirection.x, 0, -lookDirection.y), 1.0f, 0.0f);
             aimReticle.rotation = Quaternion.LookRotation(targetDir);
@@ -159,9 +159,14 @@ public class PlayerController : MonoBehaviour {
         else
         {
             reticleRend.enabled = false;
-        }
+        }*/
 
         lastLookDirection = lookDirection;
+    }
+
+    void LateUpdate()
+    {
+        playerCam.LookUpdate(lookDirection);
     }
 
     void OnDrawGizmos()

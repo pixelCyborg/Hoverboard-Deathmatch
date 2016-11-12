@@ -37,6 +37,8 @@ public class MovementController : MonoBehaviour {
     private Vector3 oldVelocity;
     public PlayerController.ControlType controlType = PlayerController.ControlType.Keyboard;
 
+    public float rootLeanMax = 15;
+
     public Vector3 moveDirection = Vector3.zero;
 
     LayerMask groundmask;
@@ -104,6 +106,12 @@ public class MovementController : MonoBehaviour {
                 MoveInDirection();
             }
         }
+        CorrectLean();
+    }
+
+    void CorrectLean()
+    {
+
     }
 
     void Drift()
