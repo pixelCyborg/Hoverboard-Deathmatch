@@ -63,7 +63,7 @@ public class MovementController : MonoBehaviour {
 
         if (boosting)
         {
-            topSpeed = origTopSpeed * 1.5f;
+            topSpeed = origTopSpeed * 1.33f;
         }
         else
         {
@@ -82,8 +82,16 @@ public class MovementController : MonoBehaviour {
             }
             else
             {
-                turnSpeed = origTurnSpeed;
-                turnMax = origTurnMax;
+                if (velDirection.magnitude < 10)
+                {
+                    turnSpeed = origTurnSpeed * 2;
+                    turnMax = origTurnMax * 3;
+                }
+                else
+                {
+                    turnSpeed = origTurnSpeed;
+                    turnMax = origTurnMax;
+                }
 
                 Move();
                 Turn();
@@ -159,6 +167,7 @@ public class MovementController : MonoBehaviour {
         if (thrust < 0)
         {
             thrust = 0;
+            velocity *= decellerationFactor * decellerationFactor;
         }
 
         //Calculate velocity
@@ -172,9 +181,17 @@ public class MovementController : MonoBehaviour {
         velDirection = (flatForward * velocity + velDirection) / 2;
 
         Vector3 targetPosition = transform.position + (velDirection.normalized * velocity * Time.deltaTime * 0.66f);
-        if (!Physics.Raycast(transform.position, transform.position - targetPosition, 2, obstacleMask)) {
+
+        RaycastHit hit;
+        Debug.DrawRay(transform.position + Vector3.up * 5, transform.forward * 3, Color.red, 0.1f);
+        if (!Physics.Raycast(transform.position, transform.forward, out hit, 3, groundmask)) {
             body.MovePosition(targetPosition);
         }
+        else
+        {
+            Debug.Log(hit.transform.name);
+        }
+
         oldPosition = transform.position;
         oldVelocity = oldPosition - transform.position;
     }
@@ -182,17 +199,19 @@ public class MovementController : MonoBehaviour {
     void Turn()
     {
         turnVel *= turnDeceleration;
-        if (!boosting)
+        if (!boosting) 
         {
+            //turnMax = origTurnMax;
             turnVel += turn * turnSpeed;
             if (turnVel > turnMax) turnVel = turnMax;
             else if (turnVel < -turnMax) turnVel = -turnMax;
         }
         else
         {
+            //turnMax = origTurnMax * 0.33f;
             turnVel += turn * turnSpeed * 0.2f;
-            if (turnVel > turnMax) turnVel = turnMax * 0.2f;
-            else if (turnVel < -turnMax) turnVel = -turnMax * 0.2f;
+            if (turnVel > turnMax * 0.2f) turnVel = turnMax * 0.2f;
+            else if (turnVel < -turnMax * 0.2f) turnVel = -turnMax * 0.2f;
         }
         body.MoveRotation(transform.rotation * Quaternion.Euler(new Vector3(0, turnVel * 0.03f, 0)));
         if (Grounded())
@@ -207,6 +226,10 @@ public class MovementController : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
+        correctionSpeed = Mathf.Lerp(correctionSpeed, Vector3.Angle(Vector3.up, transform.up) / 2, Time.fixedDeltaTime);
+        if (correctionSpeed < 1) correctionSpeed = 1;
+//        Debug.Log(correctionSpeed);
+
         Vector3 predictedUp = Quaternion.AngleAxis(
             body.angularVelocity.magnitude * Mathf.Rad2Deg * angularStability / correctionSpeed,
             body.angularVelocity
@@ -227,7 +250,7 @@ public class MovementController : MonoBehaviour {
         board.localRotation = Quaternion.Lerp(board.localRotation, Quaternion.Euler(boardRot), Time.deltaTime *2);
     }
 
-    void ResetMovement()
+    public void ResetMovement()
     {
         turn = 0;
         thrust = 0;

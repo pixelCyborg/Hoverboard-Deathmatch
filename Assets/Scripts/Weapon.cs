@@ -146,10 +146,10 @@ public class Weapon : MonoBehaviour {
             transform.SetParent(controller.hitSlot);
             body.useGravity = false;
             myCollider.enabled = false;
-            body.velocity = oldVelocity;
-            yield return new WaitForSeconds(0.05f);
             body.velocity = Vector3.zero;
             body.isKinematic = true;
+            yield return new WaitForEndOfFrame();
+            transform.position = transform.position + transform.forward * 2;
         }
         yield return new WaitForEndOfFrame();
 

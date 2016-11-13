@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour {
             else
             {
                 renderers[i].material.SetColor("_OutlineColor", playerColor);
+                renderers[i].material.color = playerColor;
             }
         }
         reticleRend.enabled = false;
@@ -96,14 +97,14 @@ public class PlayerController : MonoBehaviour {
             movement.boosting = false;
         }
 
-        if (Input.GetButtonDown("Drift" + playerControlString))
+        /*if (Input.GetButtonDown("Drift" + playerControlString))
         {
             movement.drifting = true;
         }
         if (Input.GetButtonUp("Drift" + playerControlString))
         {
             movement.drifting = false;
-        }
+        }*/
         //Keyboard Fire mechanism
         if(Input.GetButtonDown("Fire" + playerControlString))
         {
@@ -116,7 +117,6 @@ public class PlayerController : MonoBehaviour {
                 RaycastHit hit;
                 target = Vector3.zero;
                 Physics.Raycast(myCamera.ScreenPointToRay(Input.mousePosition), out hit, 1000, obstacleMask);
-                Debug.Log(hit.point);
                 target = hit.point;
                 target.y += 1;
                 //target.y = transform.position.y;
