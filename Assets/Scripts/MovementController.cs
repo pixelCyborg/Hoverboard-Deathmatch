@@ -187,10 +187,6 @@ public class MovementController : MonoBehaviour {
         if (!Physics.Raycast(transform.position, transform.forward, out hit, 3, groundmask)) {
             body.MovePosition(targetPosition);
         }
-        else
-        {
-            Debug.Log(hit.transform.name);
-        }
 
         oldPosition = transform.position;
         oldVelocity = oldPosition - transform.position;
