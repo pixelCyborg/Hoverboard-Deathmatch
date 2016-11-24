@@ -7,23 +7,22 @@ using UnityEngine.SceneManagement;
 public class Goal : MonoBehaviour {
     int[] scores;
     public Transform scoreBoard;
-    Text[] scoreBoards;
+    public Text[] scoreBoards;
     ParticleSystem particles;
-
     public Image winImage;
-
     public int winScore = 5;
-
+    public enum GameMode { Oddball, Deathmatch, CTF };
+    public GameMode mode;
 
 	// Use this for initialization
 	void Start () {
 
         scores = new int[4] { 0, 0, 0, 0 };
-        scoreBoards = new Text[4];
+        /*scoreBoards = new Text[4];
         for(int i = 0; i < scoreBoard.childCount; i++)
         {
             scoreBoards[i] = scoreBoard.GetChild(i).GetComponent<Text>();
-        }
+        }*/
 
         PlayerController[] players = FindObjectsOfType<PlayerController>();
         for (int i = 0; i < 4; i++)
@@ -65,14 +64,18 @@ public class Goal : MonoBehaviour {
         }
         scores[playerNum]++;
         scoreBoards[playerNum].text = scores[playerNum].ToString();
-        GameObject ball = combat.equippedWeapon.gameObject;
-        combat.Drop();
-        ball.SetActive(false);
-        StartCoroutine(DelayedEmit(combat));
-        MapController.SpawnBall();
         if(scores[playerNum] >= winScore)
         {
             Win(combat);
+        }
+
+        if(mode == GameMode.Oddball)
+        {
+            GameObject ball = combat.equippedWeapon.gameObject;
+            combat.Drop();
+            ball.SetActive(false);
+            StartCoroutine(DelayedEmit(combat));
+            MapController.SpawnBall();
         }
     }
 

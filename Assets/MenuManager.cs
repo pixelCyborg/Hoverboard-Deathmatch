@@ -1,21 +1,34 @@
 ﻿using UnityEngine;
+using System;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Collections;
 
 public class MenuManager : MonoBehaviour {
-    public static int[] players = new int[4] { -1, -1, -1, -1 };
-    public static Color[] colors = new Color[4];
+    public static List<int> players = new List<int>();
+    public static List<Color> colors = new List<Color>();
+    public List<Color> colorDebug = new List<Color>();
 
     void Start()
     {
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
     }
 
+    void Update()
+    {
+        colorDebug = colors;
+
+        foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
+        {
+            if (Input.GetKeyDown(kcode))
+                Debug.Log("KeyCode down: " + kcode);
+        }
+    }
+
     public static void AddPlayer(int playerNum, Color color)
     {
-        players[playerNum - 1] = playerNum;
-        colors[playerNum - 1] = color;
+        players.Add(playerNum);
+        colors.Add(color);
     }
 
     public void StartGame()
@@ -25,7 +38,6 @@ public class MenuManager : MonoBehaviour {
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        Debug.Log("Starting the level!");
         SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
         StartCoroutine(InitializeMap());
     }
@@ -34,7 +46,7 @@ public class MenuManager : MonoBehaviour {
     {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
-        FindObjectOfType<MapController>().Initialize(players, colors);
+        FindObjectOfType<MapController>().Initialize(players.ToArray(), colors.ToArray());
         SceneManager.UnloadScene(0);
     }
 }

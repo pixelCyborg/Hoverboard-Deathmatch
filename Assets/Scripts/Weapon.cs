@@ -24,6 +24,7 @@ public class Weapon : MonoBehaviour {
     bool weaponUsed = false;
 
     Vector3 oldVelocity;
+    public GameObject explosion;
 
     void Start()
     {
@@ -53,7 +54,7 @@ public class Weapon : MonoBehaviour {
         if (col.transform.tag == "Player" && active)
         {
             CombatController combat = col.transform.GetComponentInParent<CombatController>();
-            combat.Damage(GetDamage(combat, col));
+            GetDamage(combat, col);
         }
     }
 
@@ -131,41 +132,48 @@ public class Weapon : MonoBehaviour {
         }
     }
 
-    public float GetDamage(CombatController controller, Collision col)
+    public void GetDamage(CombatController controller, Collision col)
     {
         controller.hitSlot = col.contacts[0].otherCollider.transform;
         assignedSlot = null;
         StartCoroutine(_GetDamage(controller, col.relativeVelocity));
-        return damage;
+        //return damage;
     }
 
     IEnumerator _GetDamage(CombatController controller, Vector3 velocity)
     {
         if (type == WeaponType.Thrown)
         {
-            transform.SetParent(controller.hitSlot);
             body.useGravity = false;
             myCollider.enabled = false;
             body.velocity = Vector3.zero;
             body.isKinematic = true;
             yield return new WaitForEndOfFrame();
-            transform.position = transform.position + transform.forward * 2;
+            transform.position = transform.position + transform.forward * 0.5f;
+            transform.SetParent(controller.hitSlot);
         }
+        yield return new WaitForSeconds(1.0f);
+        controller.Damage(damage);
+        GameObject explode = Instantiate(explosion, transform.position, Quaternion.identity) as GameObject;
+        explosion.transform.position = transform.position;
         yield return new WaitForEndOfFrame();
 
-        Rigidbody[] hitBodies = controller.GetComponentsInChildren<Rigidbody>();
+        /*Rigidbody[] hitBodies = controller.GetComponentsInChildren<Rigidbody>();
         for (int i = 0; i < hitBodies.Length; i++)
         {
            hitBodies[i].AddExplosionForce(50, transform.position, 25, 0, ForceMode.Impulse);
-        }
+        }*/
 
         if (type == WeaponType.Thrown)
         {
             yield return new WaitForSeconds(0.9f);
             weaponUsed = true;
             active = false;
+            Debug.Log("Spawn spear!");
             MapController.SpawnSpear();
         }
+        yield return new WaitForSeconds(5);
+        Destroy(explosion);
     }
 
     void IgnoreCollisionWithUser(CombatController controller, bool shouldIgnore)
@@ -179,7 +187,7 @@ public class Weapon : MonoBehaviour {
         {
             GetComponent<CapsuleCollider>().radius = 0.5f;
         }
-        if (ignoringColliders != null)
+        if (myCollider != null && ignoringColliders != null)
         {
             for (int i = 0; i < ignoringColliders.Length; i++)
             {

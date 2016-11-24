@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
     Vector3 lastLookDirection;
 
 	// Use this for initialization
-	void Start () {
+	public void Initialize () {
         switch(player)
         {
             case Player.One:
@@ -97,14 +97,14 @@ public class PlayerController : MonoBehaviour {
             movement.boosting = false;
         }
 
-        /*if (Input.GetButtonDown("Drift" + playerControlString))
+        if (Input.GetButtonDown("Drift" + playerControlString))
         {
             movement.drifting = true;
         }
         if (Input.GetButtonUp("Drift" + playerControlString))
         {
             movement.drifting = false;
-        }*/
+        }
         //Keyboard Fire mechanism
         if(Input.GetButtonDown("Fire" + playerControlString))
         {
@@ -112,7 +112,7 @@ public class PlayerController : MonoBehaviour {
         }
         if(Input.GetButtonUp("Fire" + playerControlString))
         {
-            if (controlType == ControlType.Keyboard)
+            /*if (controlType == ControlType.Keyboard)
             {
                 RaycastHit hit;
                 target = Vector3.zero;
@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour {
                 //target.y = transform.position.y;
                 combat.Attack(target);
             }
-            else
+            else*/
             {
                 Vector3 target = Vector3.zero;
                 Transform camTransform = myCamera.transform;

@@ -27,10 +27,6 @@ public class CombatController : MonoBehaviour {
     public void OnCollisionEnter(Collision col)
     {
         Weapon weapon = col.transform.GetComponent<Weapon>();
-        if(weapon != null)
-        {
-            Debug.Log(col.contacts[0].otherCollider.transform.name);
-        }
     }
 
     private void Ragdoll()

@@ -74,8 +74,8 @@ public class MovementController : MonoBehaviour {
         {
             if (drifting && Grounded())
             {
-                turnSpeed = origTurnSpeed * 2;
-                turnMax = origTurnMax * 3;
+                turnSpeed = origTurnSpeed * 1.5f;
+                turnMax = origTurnMax * 2;
 
                 Drift();
                 Turn();
@@ -84,8 +84,8 @@ public class MovementController : MonoBehaviour {
             {
                 if (velDirection.magnitude < 10)
                 {
-                    turnSpeed = origTurnSpeed * 2;
-                    turnMax = origTurnMax * 3;
+                    turnSpeed = origTurnSpeed * 1.5f;
+                    turnMax = origTurnMax * 2;
                 }
                 else
                 {
@@ -95,23 +95,6 @@ public class MovementController : MonoBehaviour {
 
                 Move();
                 Turn();
-            }
-        }
-        else
-        {
-            if (drifting && Grounded())
-            {
-                turnSpeed = origTurnSpeed * 2;
-                turnMax = origTurnMax * 3;
-
-                MoveInDirection();
-            }
-            else
-            {
-                turnSpeed = origTurnSpeed;
-                turnMax = origTurnMax;
-
-                MoveInDirection();
             }
         }
         CorrectLean();

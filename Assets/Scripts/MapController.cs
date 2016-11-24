@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -52,35 +53,39 @@ public class MapController : MonoBehaviour {
     {
         for(int i = 0; i < players.Length; i++)
         {
+            Debug.Log(players[i]);
             if (players[i] != -1)
             {
                 GameObject player = Instantiate(playerPrefab);
+                SceneManager.MoveGameObjectToScene(player, gameObject.scene);
                 PlayerController control = player.GetComponentInChildren<PlayerController>();
                 Camera playerCam = player.GetComponentInChildren<Camera>();
-                control.playerColor = colors[i];
+
                 player.transform.position = spawnPoints[i].transform.position;
                 control.controlType = PlayerController.ControlType.Controller;
 
-                if (i == 0)
+                if (players[i] == 1)
                 {
                     control.player = PlayerController.Player.One;
                     playerCam.rect = GetCameraDimensions(1, players.Length);
                 }
-                else if (i == 1)
+                else if (players[i] == 2)
                 {
                     control.player = PlayerController.Player.Two;
                     playerCam.rect = GetCameraDimensions(2, players.Length);
                 }
-                else if (i == 2)
+                else if (players[i] == 3)
                 {
                     control.player = PlayerController.Player.Three;
                     playerCam.rect = GetCameraDimensions(3, players.Length);
                 }
-                else if (i == 3)
+                else if (players[i] == 4)
                 {
                     control.player = PlayerController.Player.Four;
                     playerCam.rect = GetCameraDimensions(4, players.Length);
                 }
+                control.playerColor = colors[i];
+                control.Initialize();
             }
         }
     }
@@ -105,9 +110,9 @@ public class MapController : MonoBehaviour {
         }
         else if(playerNum == 2)
         {
-            if(playerTotal == 1)
+            if(playerTotal == 2)
             {
-                rect = new Rect(0, 0.5f, 1, 0.5f);
+                rect = new Rect(0, 0, 1, 0.5f);
             }
             else if(playerTotal == 3)
             {
