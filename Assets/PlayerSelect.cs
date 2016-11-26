@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using DG.Tweening;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public class PlayerSelect : MonoBehaviour {
     public int number;
@@ -29,7 +30,7 @@ public class PlayerSelect : MonoBehaviour {
         {
             if (!added)
             {
-                AddPlayer();
+                AddPlayer(); 
                 ColorSelecter();
             }
         }
@@ -69,6 +70,7 @@ public class PlayerSelect : MonoBehaviour {
     {
         if (!added)
         {
+            GetComponent<NetworkIdentity>().localPlayerAuthority = true;    
             color = GetComponentInChildren<Text>().color;
             MenuManager.AddPlayer(number, color);
             selected.SetActive(true);
