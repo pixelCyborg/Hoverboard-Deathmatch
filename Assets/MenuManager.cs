@@ -7,7 +7,7 @@ using System.Collections;
 public class MenuManager : MonoBehaviour {
     public static List<int> players = new List<int>();
     public static List<Color> colors = new List<Color>();
-    public List<Color> colorDebug = new List<Color>();
+    public static List<Player> playerObjs = new List<Player>();
 
     void Start()
     {
@@ -16,8 +16,6 @@ public class MenuManager : MonoBehaviour {
 
     void Update()
     {
-        colorDebug = colors;
-
         foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
         {
             if (Input.GetKeyDown(kcode))
@@ -29,6 +27,7 @@ public class MenuManager : MonoBehaviour {
     {
         players.Add(playerNum);
         colors.Add(color);
+        playerObjs.Add(new Player(playerNum, color));
     }
 
     public void StartGame()
