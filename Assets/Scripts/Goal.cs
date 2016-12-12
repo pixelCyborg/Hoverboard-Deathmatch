@@ -12,7 +12,7 @@ public class Goal : MonoBehaviour {
     public Image winImage;
     public int winScore = 5;
     public enum GameMode { Oddball, Deathmatch, CTF };
-    public GameMode mode;
+    public static GameMode mode;
 
 	// Use this for initialization
 	void Start () {
@@ -45,12 +45,15 @@ public class Goal : MonoBehaviour {
 
     void OnTriggerEnter(Collider col)
     {
-        if(col.tag == "Player")
+        if (mode == GameMode.Oddball)
         {
-            CombatController combat = col.GetComponent<CombatController>();
-            if(combat && combat.equippedWeapon && combat.equippedWeapon.type == Weapon.WeaponType.Ball)
+            if (col.tag == "Player")
             {
-                Score(combat);
+                CombatController combat = col.GetComponent<CombatController>();
+                if (combat && combat.equippedWeapon && combat.equippedWeapon.type == Weapon.WeaponType.Ball)
+                {
+                    Score(combat);
+                }
             }
         }
     }

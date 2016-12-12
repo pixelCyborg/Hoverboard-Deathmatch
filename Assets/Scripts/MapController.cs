@@ -30,6 +30,8 @@ public class MapController : MonoBehaviour {
                 ball = weapons[i].transform;
             }
         }
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
         //Initialize(4, new Color[4]);
     }
 

@@ -70,7 +70,7 @@ public class PlayerSelect : MonoBehaviour {
     {
         if (!added)
         {
-            GetComponent<NetworkIdentity>().localPlayerAuthority = true;
+            //GetComponent<NetworkIdentity>().localPlayerAuthority = true;
             color = GetComponentInChildren<Text>().color;
             MenuManager.AddPlayer(number, color);
             selected.SetActive(true);

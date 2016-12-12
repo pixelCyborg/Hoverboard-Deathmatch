@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
 
-public class PlayerController : NetworkBehaviour {
+public class PlayerController : MonoBehaviour {
     MovementController movement;
     CombatController combat;
     Camera myCamera;
@@ -85,7 +85,7 @@ public class PlayerController : NetworkBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!isLocalPlayer) { return; }
+        //if (!isLocalPlayer) { return; }
         
         lookDirection = new Vector3(Input.GetAxis("LookHorizontal" + playerControlString), Input.GetAxis("LookVertical" + playerControlString), 0);
 

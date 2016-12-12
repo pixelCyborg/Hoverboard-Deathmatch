@@ -3,6 +3,7 @@ using System;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System.Collections;
+using UnityEngine.Networking;
 
 public class MenuManager : MonoBehaviour {
     public static List<int> players = new List<int>();
@@ -46,6 +47,11 @@ public class MenuManager : MonoBehaviour {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
         FindObjectOfType<MapController>().Initialize(players.ToArray(), colors.ToArray());
+        Goal.mode = ModeSelector.gameMode;
+        if(Goal.mode == Goal.GameMode.Deathmatch)
+        {
+            FindObjectOfType<Goal>().gameObject.SetActive(false);
+        }
         SceneManager.UnloadScene(0);
     }
 }

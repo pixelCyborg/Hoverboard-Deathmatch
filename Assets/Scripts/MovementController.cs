@@ -37,6 +37,8 @@ public class MovementController : MonoBehaviour {
     private Vector3 oldVelocity;
     public PlayerController.ControlType controlType = PlayerController.ControlType.Keyboard;
 
+    Animator anim;
+
     public float rootLeanMax = 15;
 
     public Vector3 moveDirection = Vector3.zero;
@@ -54,12 +56,14 @@ public class MovementController : MonoBehaviour {
         origTurnSpeed = turnSpeed;
         origAcceleration = acceleration;
         origTopSpeed = topSpeed;
+        anim = GetComponentInChildren<Animator>();
 	}
 
     // Update is called once per frame
     void Update() {
         moveDirection.x = turn;
         moveDirection.z = thrust;
+        anim.SetFloat("Lean", Mathf.Lerp(anim.GetFloat("Lean"), turn, Time.deltaTime * 5));
 
         if (boosting)
         {

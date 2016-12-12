@@ -6,8 +6,23 @@ public class CombatController : MonoBehaviour {
     public Weapon equippedWeapon;
     public float health;
     public Transform hitSlot;
-
+    private Goal _goal;
     public Transform lastUsedWeapon;
+    Animator anim;
+
+    private Goal goal()
+    {
+        if (_goal == null)
+        {
+            _goal = FindObjectOfType<Goal>();
+        }
+        return _goal;
+    }
+
+    void Start()
+    {
+        anim = GetComponentInChildren<Animator>();
+    }
 
     public void SetWeapon(Weapon weapon)
     {
@@ -20,7 +35,11 @@ public class CombatController : MonoBehaviour {
         health -= damage;
         if (health <= 0)
         {
-            Ragdoll();
+            if(Goal.mode == Goal.GameMode.Deathmatch)
+            {
+                FindObjectOfType<Goal>().Score(this);
+            }
+            Die();
         }
     }
 
@@ -29,7 +48,7 @@ public class CombatController : MonoBehaviour {
         Weapon weapon = col.transform.GetComponent<Weapon>();
     }
 
-    private void Ragdoll()
+    private void Die()
     {
         if (equippedWeapon != null) Drop();
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -63,6 +82,16 @@ public class CombatController : MonoBehaviour {
 
     public void Attack(Vector3 target)
     {
+        if (equippedWeapon != null)
+        {
+            anim.SetTrigger("Throw");
+            StartCoroutine(_Attack(target));
+        }
+    }
+
+    IEnumerator _Attack(Vector3 target)
+    {
+        yield return new WaitForSeconds(0.05f);
         if (equippedWeapon != null)
         {
             lastUsedWeapon = equippedWeapon.transform;
