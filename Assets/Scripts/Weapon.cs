@@ -23,6 +23,7 @@ public class Weapon : MonoBehaviour {
     Collider[] ignoringColliders;
     bool weaponUsed = false;
     public CombatController lastUser;
+    TrailRenderer trail;
 
     Vector3 oldVelocity;
     public GameObject explosion;
@@ -31,6 +32,7 @@ public class Weapon : MonoBehaviour {
     {
         //myCollider = GetComponent<Collider>();
         body = GetComponent<Rigidbody>();
+        trail = GetComponent<TrailRenderer>();
     }
 
     void Update()

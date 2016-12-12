@@ -62,11 +62,11 @@ public class MenuManager : MonoBehaviour {
         if(controlScreen.activeSelf)
         {
             InputManager.Save();
+            PlaySelect();
         }
 
         mainScreen.SetActive(true);
         controlScreen.SetActive(false);
-        PlaySelect();
     }
 
     public void GoToControls()

@@ -111,7 +111,6 @@ GameObject:
   - 124: {fileID: 124000010584201060}
   - 114: {fileID: 114000010015315054}
   - 114: {fileID: 114000012129188220}
-  - 114: {fileID: 114000011149055960}
   m_Layer: 12
   m_Name: MainCamera
   m_TagString: MainCamera
@@ -1266,7 +1265,7 @@ Camera:
   m_GameObject: {fileID: 1000010349755988}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 2
+  m_ClearFlags: 1
   m_BackGroundColor: {r: 0.08088237, g: 0.08088237, b: 0.08088237, a: 0.019607844}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -1275,7 +1274,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.2
-  far clip plane: 5000
+  far clip plane: 600
   field of view: 50
   orthographic: 0
   orthographic size: 4.5
@@ -1283,7 +1282,7 @@ Camera:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_RenderingPath: -1
+  m_RenderingPath: 1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
   m_TargetEye: 3
@@ -1770,8 +1769,8 @@ MonoBehaviour:
   smooth: 10
   aimPivotOffset: {x: 0, y: 1.7, z: -0.3}
   aimCamOffset: {x: 0.8, y: 0, z: -1}
-  horizontalAimingSpeed: 100
-  verticalAimingSpeed: 75
+  horizontalAimingSpeed: 60
+  verticalAimingSpeed: 40
   maxVerticalAngle: 30
   flyMaxVerticalAngle: 60
   minVerticalAngle: -60
@@ -2070,29 +2069,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114000011149055960
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000010349755988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd6d4281e5d7cd44d8c6e38bc2c1b8d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mode: 0
-  intensity: 0.4
-  chromaticAberration: 0
-  axialAberration: 4.83
-  blur: 0
-  blurSpread: 0
-  luminanceDependency: 1
-  blurDistance: 2.5
-  vignetteShader: {fileID: 4800000, guid: 627943dc7a9a74286b70a4f694a0acd5, type: 3}
-  separableBlurShader: {fileID: 4800000, guid: e97c14fbb5ea04c3a902cc533d7fc5d1, type: 3}
-  chromAberrationShader: {fileID: 4800000, guid: 2b4f29398d9484ccfa9fd220449f5eee,
-    type: 3}
 --- !u!114 &114000011547682214
 MonoBehaviour:
   m_ObjectHideFlags: 1

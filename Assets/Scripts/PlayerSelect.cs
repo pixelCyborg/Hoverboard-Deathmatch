@@ -140,6 +140,17 @@ public class PlayerSelect : MonoBehaviour {
         }
     }
 
+    public void SelectColor(Color _color, Transform selectBox)
+    {
+        oldColor = currentColor;
+        colors[oldColor].DOScale(1.0f, 0.5f);
+        currentColor = selectBox.GetSiblingIndex();
+        colors[currentColor].DOScale(1.2f, 0.5f);
+        SelectColor(colors[currentColor].GetComponent<Image>().color);
+
+        SelectColor(_color);
+    }
+
     public void SelectColor(Color _color)
     {
         PlayMove();

@@ -5,6 +5,6 @@ using System.Collections;
 public class ColorSelect : MonoBehaviour {
     public void Select()
     {
-        GetComponentInParent<PlayerSelect>().SelectColor(GetComponent<Image>().color);
+        GetComponentInParent<PlayerSelect>().SelectColor(GetComponent<Image>().color, transform);
     }
 }
