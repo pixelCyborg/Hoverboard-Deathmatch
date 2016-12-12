@@ -55,7 +55,6 @@ public class MapController : MonoBehaviour {
     {
         for(int i = 0; i < players.Length; i++)
         {
-            Debug.Log(players[i]);
             if (players[i] != -1)
             {
                 GameObject player = Instantiate(playerPrefab);

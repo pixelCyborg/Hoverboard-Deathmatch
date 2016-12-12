@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.Networking;
+using TeamUtility.IO;
 
 public class PlayerController : MonoBehaviour {
     MovementController movement;
@@ -34,7 +35,7 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	public void Initialize () {
-        switch(player)
+        switch (player)
         {
             case Player.One:
                 playerControlString = " PLAYER_1";
@@ -87,33 +88,33 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
         //if (!isLocalPlayer) { return; }
         
-        lookDirection = new Vector3(Input.GetAxis("LookHorizontal" + playerControlString), Input.GetAxis("LookVertical" + playerControlString), 0);
+        lookDirection = new Vector3(InputManager.GetAxis("LookHorizontal" + playerControlString), InputManager.GetAxis("LookVertical" + playerControlString), 0);
 
-        if (Input.GetButtonDown("Boost" + playerControlString))
+        if (InputManager.GetButtonDown("Boost" + playerControlString))
         {
             playerCam.targetFOV = playerCam.defaultFOV * 1.5f;
             movement.boosting = true;
         }
-        if (Input.GetButtonUp("Boost" + playerControlString))
+        if (InputManager.GetButtonUp("Boost" + playerControlString))
         {
             playerCam.targetFOV = playerCam.defaultFOV;
             movement.boosting = false;
         }
 
-        if (Input.GetButtonDown("Drift" + playerControlString))
+        if (InputManager.GetButtonDown("Drift" + playerControlString))
         {
             movement.drifting = true;
         }
-        if (Input.GetButtonUp("Drift" + playerControlString))
+        if (InputManager.GetButtonUp("Drift" + playerControlString))
         {
             movement.drifting = false;
         }
         //Keyboard Fire mechanism
-        if(Input.GetButtonDown("Fire" + playerControlString))
+        if(InputManager.GetButtonDown("Fire" + playerControlString))
         {
             combat.Charge();
         }
-        if(Input.GetButtonUp("Fire" + playerControlString))
+        if(InputManager.GetButtonUp("Fire" + playerControlString))
         {
             /*if (controlType == ControlType.Keyboard)
             {
@@ -145,13 +146,13 @@ public class PlayerController : MonoBehaviour {
             charging = false;
         }*/
 
-        if(Input.GetButtonDown("Drop" + playerControlString))
+        if(InputManager.GetButtonDown("Drop" + playerControlString))
         {
             combat.Drop();
         }
 
-        movement.turn = Input.GetAxis("Horizontal" + playerControlString);
-        movement.thrust = Input.GetAxis("Vertical" + playerControlString);
+        movement.turn = InputManager.GetAxis("Horizontal" + playerControlString);
+        movement.thrust = InputManager.GetAxis("Vertical" + playerControlString);
 
         /*if (lookDirection.magnitude > 0.5f)
         {

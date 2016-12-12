@@ -1,0 +1,665 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<Input playerOneDefault="" playerTwoDefault="" playerThreeDefault="" playerFourDefault="">
+  <InputConfiguration name="Unity-Imported">
+    <AxisConfiguration name="Horizontal PLAYER_1">
+      <description />
+      <positive>RightArrow</positive>
+      <altPositive>D</altPositive>
+      <negative>LeftArrow</negative>
+      <altNegative>A</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>3</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>true</snap>
+      <invert>false</invert>
+      <type>DigitalAxis</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Vertical PLAYER_1">
+      <description />
+      <positive>UpArrow</positive>
+      <altPositive>W</altPositive>
+      <negative>DownArrow</negative>
+      <altNegative>S</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>3</gravity>
+      <sensitivity>3</sensitivity>
+      <snap>true</snap>
+      <invert>false</invert>
+      <type>DigitalAxis</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Fire PLAYER_1">
+      <description />
+      <positive>Mouse0</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Drift PLAYER_1">
+      <description />
+      <positive>Space</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Boost PLAYER_1">
+      <description />
+      <positive>LeftShift</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Drop PLAYER_1">
+      <description />
+      <positive>E</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="LookHorizontal PLAYER_1">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>5</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>MouseAxis</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="LookVertical PLAYER_1">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>2</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>MouseAxis</type>
+      <axis>1</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Horizontal PLAYER_1">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.19</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Horizontal PLAYER_2">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.19</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>0</axis>
+      <joystick>1</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Horizontal PLAYER_3">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.19</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>0</axis>
+      <joystick>2</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Horizontal PLAYER_4">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.19</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>0</axis>
+      <joystick>3</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Vertical PLAYER_1">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.19</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>4</sensitivity>
+      <snap>false</snap>
+      <invert>true</invert>
+      <type>AnalogAxis</type>
+      <axis>1</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Vertical PLAYER_2">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.19</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>4</sensitivity>
+      <snap>false</snap>
+      <invert>true</invert>
+      <type>AnalogAxis</type>
+      <axis>1</axis>
+      <joystick>1</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Vertical PLAYER_3">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.19</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>4</sensitivity>
+      <snap>false</snap>
+      <invert>true</invert>
+      <type>AnalogAxis</type>
+      <axis>1</axis>
+      <joystick>2</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Vertical PLAYER_4">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.19</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>4</sensitivity>
+      <snap>false</snap>
+      <invert>true</invert>
+      <type>AnalogAxis</type>
+      <axis>1</axis>
+      <joystick>3</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Drift PLAYER_1">
+      <description />
+      <positive>Joystick1Button4</positive>
+      <altPositive>Joystick1Button2</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Drift PLAYER_2">
+      <description />
+      <positive>Joystick2Button4</positive>
+      <altPositive>Joystick2Button2</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Drift PLAYER_3">
+      <description />
+      <positive>Joystick3Button4</positive>
+      <altPositive>Joystick3Button2</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Drift PLAYER_4">
+      <description />
+      <positive>Joystick4Button4</positive>
+      <altPositive>Joystick4Button2</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Fire PLAYER_1">
+      <description />
+      <positive>Joystick1Button5</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Fire PLAYER_2">
+      <description />
+      <positive>Joystick2Button5</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Fire PLAYER_3">
+      <description />
+      <positive>Joystick3Button5</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Fire PLAYER_4">
+      <description />
+      <positive>Joystick4Button5</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Boost PLAYER_1">
+      <description />
+      <positive>Joystick1Button10</positive>
+      <altPositive>Joystick1Button1</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Boost PLAYER_2">
+      <description />
+      <positive>Joystick2Button10</positive>
+      <altPositive>Joystick2Button1</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Boost PLAYER_3">
+      <description />
+      <positive>Joystick3Button10</positive>
+      <altPositive>Joystick3Button1</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Boost PLAYER_4">
+      <description />
+      <positive>Joystick4Button10</positive>
+      <altPositive>Joystick4Button1</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Drop PLAYER_1">
+      <description />
+      <positive>Joystick1Button3</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Drop PLAYER_2">
+      <description />
+      <positive>Joystick2Button3</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Drop PLAYER_3">
+      <description />
+      <positive>Joystick3Button3</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Drop PLAYER_4">
+      <description />
+      <positive>Joystick4Button3</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>Button</type>
+      <axis>0</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="LookHorizontal PLAYER_1">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>2</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="LookHorizontal PLAYER_2">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>2</axis>
+      <joystick>1</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="LookHorizontal PLAYER_3">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>2</axis>
+      <joystick>2</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="LookHorizontal PLAYER_4">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>2</axis>
+      <joystick>3</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="LookVertical PLAYER_1">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>true</invert>
+      <type>AnalogAxis</type>
+      <axis>5</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="LookVertical PLAYER_2">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>true</invert>
+      <type>AnalogAxis</type>
+      <axis>5</axis>
+      <joystick>1</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="LookVertical PLAYER_3">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>true</invert>
+      <type>AnalogAxis</type>
+      <axis>5</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="LookVertical PLAYER_4">
+      <description />
+      <positive>None</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0</deadZone>
+      <gravity>0</gravity>
+      <sensitivity>1</sensitivity>
+      <snap>false</snap>
+      <invert>true</invert>
+      <type>AnalogAxis</type>
+      <axis>5</axis>
+      <joystick>3</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Start PLAYER_1">
+      <description />
+      <positive>Joystick1Button9</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>5</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Start PLAYER_2">
+      <description />
+      <positive>Joystick2Button9</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>5</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Start PLAYER_3">
+      <description />
+      <positive>Joystick3Button9</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>5</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+    <AxisConfiguration name="Start PLAYER_4">
+      <description />
+      <positive>Joystick4Button9</positive>
+      <altPositive>None</altPositive>
+      <negative>None</negative>
+      <altNegative>None</altNegative>
+      <deadZone>0.001</deadZone>
+      <gravity>1000</gravity>
+      <sensitivity>1000</sensitivity>
+      <snap>false</snap>
+      <invert>false</invert>
+      <type>AnalogAxis</type>
+      <axis>5</axis>
+      <joystick>0</joystick>
+    </AxisConfiguration>
+  </InputConfiguration>
+</Input>
