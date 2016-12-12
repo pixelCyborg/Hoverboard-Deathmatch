@@ -13,6 +13,8 @@ public class MovementController : MonoBehaviour {
     public float decellerationFactor = 0.98f;
     public float turnDeceleration = 0.98f;
 
+    public AudioSource engineNoise;
+
     private Rigidbody body;
     private float velocity = 0;
     private float turnVel = 0;
@@ -175,6 +177,7 @@ public class MovementController : MonoBehaviour {
             body.MovePosition(targetPosition);
         }
 
+        engineNoise.pitch = Mathf.Lerp(engineNoise.pitch, 0.8f + ((velocity * 2) * Mathf.Abs(turnVel / 2.0f)) * 0.00066f, Time.deltaTime * 2);
         oldPosition = transform.position;
         oldVelocity = oldPosition - transform.position;
     }

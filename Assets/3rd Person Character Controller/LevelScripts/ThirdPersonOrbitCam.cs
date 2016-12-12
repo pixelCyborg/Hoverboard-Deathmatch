@@ -38,6 +38,8 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 	public float defaultFOV;
 	public float targetFOV;
 
+    public Vector3 shakeOffset;
+
 	void Awake()
 	{
 		cam = transform;
@@ -80,6 +82,10 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 		smoothCamOffset = Vector3.Lerp(smoothCamOffset, targetCamOffset, smooth * Time.deltaTime);
 
 		cam.position =  player.position + camYRotation * smoothPivotOffset + aimRotation * smoothCamOffset;
+        if(Vector3.Distance(Vector3.zero, shakeOffset) > 1)
+        {
+            cam.localPosition += shakeOffset;
+        }
 
 	}
 

@@ -24,12 +24,26 @@ public class CameraShake : MonoBehaviour
     public bool smooth;//Smooth rotation?
     public float smoothAmount = 5f;//Amount to smooth
 
+    public float testAmount = 5.0f;
+    public float testTime = 0.5f;
+    Vector3 oldShake = Vector3.zero;
+    ThirdPersonOrbitCam orbit;
+
     void Start()
     {
-
+        orbit = GetComponent<ThirdPersonOrbitCam>();
         if (debugMode) ShakeCamera();
     }
 
+#if UNITY_EDITOR
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            ShakeCamera(testAmount, testTime);
+        }
+    }
+#endif
 
     void ShakeCamera()
     {
@@ -58,8 +72,8 @@ public class CameraShake : MonoBehaviour
 
         while (shakeDuration > 0.01f)
         {
-            Vector3 rotationAmount = Random.insideUnitSphere * shakeAmount;//A Vector3 to add to the Local Rotation
-            rotationAmount.z = 0;//Don't change the Z; it looks funny.
+            Vector3 shakeOffset = Random.insideUnitSphere * shakeAmount;//A Vector3 to add to the Local Rotation
+            shakeOffset.z = 0;//Don't change the Z; it looks funny.
 
             shakePercentage = shakeDuration / startDuration;//Used to set the amount of shake (% * startAmount).
 
@@ -68,9 +82,13 @@ public class CameraShake : MonoBehaviour
 
 
             if (smooth)
-                transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotationAmount), Time.deltaTime * smoothAmount);
+            {
+                orbit.shakeOffset = Vector3.Lerp(oldShake, shakeOffset, Time.deltaTime * smoothAmount);//Quaternion.Euler(rotationAmount - transform.localRotation.eulerAngles);//Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotationAmount), Time.deltaTime * smoothAmount);
+                oldShake = shakeOffset;                      //transform.localRotation = Quaternion.Lerp(transform.localRotation, Quaternion.Euler(rotationAmount), Time.deltaTime * smoothAmount);
+            }
             else
-                transform.localRotation = Quaternion.Euler(rotationAmount);//Set the local rotation the be the rotation amount.
+                orbit.shakeOffset = shakeOffset;//Quaternion.Euler(rotationAmount);//Set the local rotation the be the rotation amount.
+                //transform.localRotation = Quaternion.Euler(rotationAmount);//Set the local rotation the be the rotation amount.
 
             yield return null;
         }

@@ -23,7 +23,16 @@ public class Goal : MonoBehaviour {
         {
             scoreBoards[i] = scoreBoard.GetChild(i).GetComponent<Text>();
         }*/
+        winImage.color = Color.clear;
+        winImage.gameObject.SetActive(false);
 
+        particles = GetComponentInChildren<ParticleSystem>();
+        StartCoroutine(LateStart());
+	}
+
+    IEnumerator LateStart()
+    {
+        yield return new WaitForSeconds(1);
         PlayerController[] players = FindObjectsOfType<PlayerController>();
         for (int i = 0; i < 4; i++)
         {
@@ -37,11 +46,7 @@ public class Goal : MonoBehaviour {
                 Destroy(scoreBoards[i].gameObject);
             }
         }
-        winImage.color = Color.clear;
-        winImage.gameObject.SetActive(false);
-
-        particles = GetComponentInChildren<ParticleSystem>();
-	}
+    }
 
     void OnTriggerEnter(Collider col)
     {

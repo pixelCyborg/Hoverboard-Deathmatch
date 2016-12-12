@@ -14,9 +14,28 @@ public class MenuManager : MonoBehaviour {
 
     public GameObject mainScreen;
     public GameObject controlScreen;
+    public ControlConfig[] configs;
+
+    public AudioClip moveSound;
+    public AudioClip selectSound;
+    private AudioSource source;
+
+    void PlayMove()
+    {
+        source.clip = moveSound;
+        source.Play();
+    }
+
+    void PlaySelect()
+    {
+        source.clip = selectSound;
+        source.Play();
+    }
 
     void Start()
     {
+        source = GetComponent<AudioSource>();
+        InputManager.Load();
         selector = FindObjectOfType<ModeSelector>();
         SceneManager.sceneLoaded += SceneManager_sceneLoaded;
         GoToMain();
@@ -24,35 +43,37 @@ public class MenuManager : MonoBehaviour {
 
     void Update()
     {
-        /*foreach (KeyCode kcode in Enum.GetValues(typeof(KeyCode)))
-        {
-            if (Input.GetKeyDown(kcode))
-                Debug.Log(kcode);
-        }*/
-
-        for (int i = 1; i < 5; i++)
-        {
-            if (InputManager.GetButtonDown("Drift PLAYER_" + i))
+        if(mainScreen.gameObject.activeSelf) {
+            for (int i = 1; i < 5; i++)
             {
-                selector.Next();
-            }
-            else if (InputManager.GetButtonDown("Fire PLAYER_" + i))
-            {
-                selector.Previous();
+                if (!configs[i - 1].receivingInput)
+                {
+                    if (InputManager.GetButtonDown("Drift PLAYER_" + i))
+                    {
+                        selector.Next();
+                    }
+                }
             }
         }
     }
 
     public void GoToMain()
     {
+        if(controlScreen.activeSelf)
+        {
+            InputManager.Save();
+        }
+
         mainScreen.SetActive(true);
         controlScreen.SetActive(false);
+        PlaySelect();
     }
 
     public void GoToControls()
     {
         mainScreen.SetActive(false);
         controlScreen.SetActive(true);
+        PlaySelect();
     }
 
     public static void AddPlayer(int playerNum, Color color)
@@ -69,8 +90,15 @@ public class MenuManager : MonoBehaviour {
 
     private void SceneManager_sceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
-        SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
-        StartCoroutine(InitializeMap());
+        if (arg0.buildIndex != 0)
+        {
+            SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
+            StartCoroutine(InitializeMap());
+        }
+        else
+        {
+            Destroy(this);
+        }
     }
 
     IEnumerator InitializeMap()
@@ -81,7 +109,9 @@ public class MenuManager : MonoBehaviour {
         Goal.mode = ModeSelector.gameMode;
         if(Goal.mode == Goal.GameMode.Deathmatch)
         {
-            FindObjectOfType<Goal>().gameObject.SetActive(false);
+            Transform goal = FindObjectOfType<Goal>().transform;
+            goal.GetComponent<Collider>().enabled = false;
+            goal.GetComponent<Renderer>().enabled = false;
         }
         SceneManager.UnloadScene(0);
     }

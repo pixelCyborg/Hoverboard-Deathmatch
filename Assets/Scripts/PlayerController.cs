@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
     private Transform aimReticle;
     private Renderer reticleRend;
     private ThirdPersonOrbitCam playerCam;
+    private PauseMenu pauseMenu;
 
     public enum ControlType
     {
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour {
     private string playerControlString = "";
     LayerMask obstacleMask;
     private bool charging = false;
+    private bool pushingStick = false;
 
     public Color playerColor;
     Text scoreText;
@@ -57,6 +59,7 @@ public class PlayerController : MonoBehaviour {
         {
             myCamera = Camera.main;
         }
+        pauseMenu = transform.parent.GetComponentInChildren<PauseMenu>();
         movement = GetComponent<MovementController>();
         combat = GetComponent<CombatController>();
         movement.controlType = controlType;
@@ -86,8 +89,44 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //if (!isLocalPlayer) { return; }
-        
+        if (pauseMenu.paused) {
+            float vertical = InputManager.GetAxis("Vertical" + playerControlString);
+            movement.turn = 0;
+            movement.thrust = 0;
+
+            if(InputManager.GetButtonDown("Fire" + playerControlString))
+            {
+                pauseMenu.Select();
+            }
+
+            if(InputManager.GetButtonDown("Start" + playerControlString))
+            {
+                pauseMenu.Resume();
+            }
+
+            if(vertical > 0.9f)
+            {
+                if(!pushingStick)
+                {
+                    pushingStick = true;
+                    pauseMenu.Up();
+                }
+            }
+            else if(vertical < -0.9f)
+            {
+                if (!pushingStick)
+                {
+                    pushingStick = true;
+                    pauseMenu.Down();
+                }
+            }
+            else
+            {
+                pushingStick = false;
+            }
+
+            return;
+        }
         lookDirection = new Vector3(InputManager.GetAxis("LookHorizontal" + playerControlString), InputManager.GetAxis("LookVertical" + playerControlString), 0);
 
         if (InputManager.GetButtonDown("Boost" + playerControlString))
@@ -151,6 +190,10 @@ public class PlayerController : MonoBehaviour {
             combat.Drop();
         }
 
+        if(InputManager.GetButtonDown("Start" + playerControlString)) {
+            pauseMenu.Pause();
+        }
+
         movement.turn = InputManager.GetAxis("Horizontal" + playerControlString);
         movement.thrust = InputManager.GetAxis("Vertical" + playerControlString);
 
@@ -165,12 +208,13 @@ public class PlayerController : MonoBehaviour {
             reticleRend.enabled = false;
         }*/
 
+        playerCam.LookUpdate(lookDirection);
         lastLookDirection = lookDirection;
     }
 
     void LateUpdate()
     {
-        playerCam.LookUpdate(lookDirection);
+        //playerCam.LookUpdate(lookDirection);
     }
 
     void OnDrawGizmos()

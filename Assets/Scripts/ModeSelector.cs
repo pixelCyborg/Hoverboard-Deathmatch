@@ -14,11 +14,10 @@ public class ModeSelector : MonoBehaviour {
     public void Next ()
     {
         currentMode++;
-        if (currentMode >= modes.Length - 1)
+        if (currentMode > modes.Length - 1)
         {
             currentMode = 0;
         }
-
         SetMode();
 	}
 

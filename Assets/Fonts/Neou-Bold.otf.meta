@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 5c7efcdfc8e45e1418567f9cb2a75729
+timeCreated: 1481548861
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Neou
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 2b387d7a7d8f0f84b9330c51f66562a0, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

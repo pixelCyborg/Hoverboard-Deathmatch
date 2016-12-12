@@ -9,6 +9,7 @@ public class CombatController : MonoBehaviour {
     private Goal _goal;
     public Transform lastUsedWeapon;
     Animator anim;
+    AudioSource source;
 
     private Goal goal()
     {
@@ -22,6 +23,7 @@ public class CombatController : MonoBehaviour {
     void Start()
     {
         anim = GetComponentInChildren<Animator>();
+        source = GetComponent<AudioSource>();
     }
 
     public void SetWeapon(Weapon weapon)
@@ -30,14 +32,14 @@ public class CombatController : MonoBehaviour {
         equippedWeapon = weapon;
     }
 
-    public void Damage(float damage)
+    public void Damage(float damage, CombatController lastUser)
     {
         health -= damage;
         if (health <= 0)
         {
             if(Goal.mode == Goal.GameMode.Deathmatch)
             {
-                FindObjectOfType<Goal>().Score(this);
+                FindObjectOfType<Goal>().Score(lastUser);
             }
             Die();
         }
@@ -48,7 +50,7 @@ public class CombatController : MonoBehaviour {
         Weapon weapon = col.transform.GetComponent<Weapon>();
     }
 
-    private void Die()
+    public void Die()
     {
         if (equippedWeapon != null) Drop();
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
@@ -85,6 +87,7 @@ public class CombatController : MonoBehaviour {
         if (equippedWeapon != null)
         {
             anim.SetTrigger("Throw");
+            source.Play();
             StartCoroutine(_Attack(target));
         }
     }

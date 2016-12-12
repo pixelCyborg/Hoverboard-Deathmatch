@@ -22,6 +22,7 @@ public class Weapon : MonoBehaviour {
     private Transform assignedSlot;
     Collider[] ignoringColliders;
     bool weaponUsed = false;
+    public CombatController lastUser;
 
     Vector3 oldVelocity;
     public GameObject explosion;
@@ -53,6 +54,8 @@ public class Weapon : MonoBehaviour {
 
         if (col.transform.tag == "Player" && active)
         {
+            //Debug.Log("Collided with player");
+            active = false;
             CombatController combat = col.transform.GetComponentInParent<CombatController>();
             GetDamage(combat, col);
         }
@@ -87,6 +90,7 @@ public class Weapon : MonoBehaviour {
             body.constraints = RigidbodyConstraints.FreezeAll;
             assignedSlot = controller.weaponSlot;
             controller.SetWeapon(this);
+            lastUser = controller;
         }
     }
 
@@ -135,13 +139,14 @@ public class Weapon : MonoBehaviour {
     public void GetDamage(CombatController controller, Collision col)
     {
         controller.hitSlot = col.contacts[0].otherCollider.transform;
-        assignedSlot = null;
         StartCoroutine(_GetDamage(controller, col.relativeVelocity));
+        assignedSlot = null;
         //return damage;
     }
 
     IEnumerator _GetDamage(CombatController controller, Vector3 velocity)
     {
+        GetComponent<AudioSource>().PlayDelayed(0.25f);
         if (type == WeaponType.Thrown)
         {
             body.useGravity = false;
@@ -153,7 +158,7 @@ public class Weapon : MonoBehaviour {
             transform.SetParent(controller.hitSlot);
         }
         yield return new WaitForSeconds(1.0f);
-        controller.Damage(damage);
+        controller.Damage(damage, lastUser);
         GameObject explode = Instantiate(explosion, transform.position, Quaternion.identity) as GameObject;
         explosion.transform.position = transform.position;
         yield return new WaitForEndOfFrame();
@@ -169,11 +174,10 @@ public class Weapon : MonoBehaviour {
             yield return new WaitForSeconds(0.9f);
             weaponUsed = true;
             active = false;
-            Debug.Log("Spawn spear!");
             MapController.SpawnSpear();
         }
-        yield return new WaitForSeconds(5);
-        Destroy(explosion);
+        //yield return new WaitForSeconds(5);
+        //Destroy(explosion);
     }
 
     void IgnoreCollisionWithUser(CombatController controller, bool shouldIgnore)

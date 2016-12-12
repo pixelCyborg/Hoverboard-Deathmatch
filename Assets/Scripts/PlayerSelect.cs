@@ -19,20 +19,41 @@ public class PlayerSelect : MonoBehaviour {
     int oldColor;
     bool changing;
 
+    public AudioClip moveSound;
+    public AudioClip selectSound;
+    private AudioSource source;
+
     void Start()
     {
         selected.SetActive(false);
         controlString = " PLAYER_" + number;
+        source = GetComponent<AudioSource>();
+    }
+
+    void PlayMove()
+    {
+        source.clip = moveSound;
+        source.Play();
+    }
+
+    void PlaySelect()
+    {
+        source.clip = selectSound;
+        source.Play();
     }
 
     void Update()
     {
-        if (InputManager.GetButtonDown("Boost" + controlString))
+        if(InputManager.GetButtonDown("Drop" + controlString))
+        {
+            FindObjectOfType<MenuManager>().GoToControls();
+        }
+
+        if (InputManager.GetButtonDown("Fire" + controlString))
         {
             if (!added)
             {
-                AddPlayer(); 
-                ColorSelecter();
+                AddPlayer();
             }
         }
 
@@ -62,6 +83,7 @@ public class PlayerSelect : MonoBehaviour {
 
             if (InputManager.GetButtonDown("Start" + controlString))
             {
+                PlaySelect();
                 FindObjectOfType<MenuManager>().StartGame();
             }
         }
@@ -71,12 +93,14 @@ public class PlayerSelect : MonoBehaviour {
     {
         if (!added)
         {
+            PlaySelect();
             //GetComponent<NetworkIdentity>().localPlayerAuthority = true;
             color = GetComponentInChildren<Text>().color;
             MenuManager.AddPlayer(number, color);
             selected.SetActive(true);
             notSelected.SetActive(false);
             added = true;
+            ColorSelecter();
         }
     }
 
@@ -118,6 +142,7 @@ public class PlayerSelect : MonoBehaviour {
 
     public void SelectColor(Color _color)
     {
+        PlayMove();
         color = _color;
         Text[] text = GetComponentsInChildren<Text>();
         for(int i = 0; i < text.Length; i++)
