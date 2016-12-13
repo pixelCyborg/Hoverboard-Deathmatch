@@ -127,7 +127,7 @@ public class MovementController : MonoBehaviour {
             Vector3 targetDir = Vector3.RotateTowards(transform.forward, moveDirection, turnSpeed * 0.01f, turnMax * 0.1f);
             transform.rotation = Quaternion.LookRotation(targetDir);
         }
-        body.MovePosition(transform.position + transform.forward * thrust * 0.2f);
+        body.MovePosition(transform.position + transform.forward * thrust * 0.2f * Time.deltaTime);
 
         /*        velocity *= decellerationFactor;
                 if (thrust < 0)
@@ -199,7 +199,7 @@ public class MovementController : MonoBehaviour {
             if (turnVel > turnMax * 0.2f) turnVel = turnMax * 0.2f;
             else if (turnVel < -turnMax * 0.2f) turnVel = -turnMax * 0.2f;
         }
-        body.MoveRotation(transform.rotation * Quaternion.Euler(new Vector3(0, turnVel * 0.03f, 0)));
+        body.MoveRotation(transform.rotation * Quaternion.Euler(new Vector3(0, turnVel * Time.deltaTime * 2.0f, 0)));
         if (Grounded())
         {
             TurnBoard(turn);
@@ -212,16 +212,19 @@ public class MovementController : MonoBehaviour {
     // Update is called once per frame
     void FixedUpdate()
     {
-        correctionSpeed = Mathf.Lerp(correctionSpeed, Vector3.Angle(Vector3.up, transform.up) / 2, Time.fixedDeltaTime);
-        if (correctionSpeed < 1) correctionSpeed = 1;
-//        Debug.Log(correctionSpeed);
+        if (Physics.Raycast(transform.position, Vector3.down, 3.0f, groundmask))
+        {
+            correctionSpeed = Mathf.Lerp(correctionSpeed, Vector3.Angle(Vector3.up, transform.up) / 2, Time.fixedDeltaTime);
+            if (correctionSpeed < 1) correctionSpeed = 1;
+            //        Debug.Log(correctionSpeed);
 
-        Vector3 predictedUp = Quaternion.AngleAxis(
-            body.angularVelocity.magnitude * Mathf.Rad2Deg * angularStability / correctionSpeed,
-            body.angularVelocity
-        ) * transform.up;
-        Vector3 torqueVector = Vector3.Cross(predictedUp, Vector3.up);
-        body.AddTorque(torqueVector * correctionSpeed * correctionSpeed);
+            Vector3 predictedUp = Quaternion.AngleAxis(
+                body.angularVelocity.magnitude * Mathf.Rad2Deg * angularStability / correctionSpeed,
+                body.angularVelocity
+            ) * transform.up;
+            Vector3 torqueVector = Vector3.Cross(predictedUp, Vector3.up);
+            body.AddTorque(torqueVector * correctionSpeed * correctionSpeed);
+        }
     }
 
     bool Grounded()

@@ -12,7 +12,7 @@ public class ExplosionCameraShake : MonoBehaviour {
             if (viewPoint.z > 0 && viewPoint.x > 0 && viewPoint.x < 1 && viewPoint.y > 0 && viewPoint.y < 1)
             {
                 Debug.Log("Shaking tha camera");
-                cameras[i].GetComponent<CameraShake>().ShakeCamera(5, 0.5f);
+                cameras[i].GetComponent<CameraShake>().ShakeCamera(5, 0.2f);
             }
         }
     }

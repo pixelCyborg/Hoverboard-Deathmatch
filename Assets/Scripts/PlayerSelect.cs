@@ -49,11 +49,12 @@ public class PlayerSelect : MonoBehaviour {
             FindObjectOfType<MenuManager>().GoToControls();
         }
 
-        if (InputManager.GetButtonDown("Fire" + controlString))
+        if (!added)
         {
-            if (!added)
+            if (InputManager.GetButtonDown("Fire" + controlString) ||
+                InputManager.GetButtonDown("Start" + controlString))
             {
-                AddPlayer();
+                Invoke("AddPlayer", 0.2f);
             }
         }
 

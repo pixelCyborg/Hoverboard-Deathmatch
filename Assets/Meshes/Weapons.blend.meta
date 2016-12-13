@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 5f6fc912d8a5ad740a8654a5b252c9cf
-timeCreated: 1477645537
+timeCreated: 1481608957
 licenseType: Pro
 ModelImporter:
   serializedVersion: 19
@@ -9,29 +9,34 @@ ModelImporter:
     100002: BotHear
     100004: ShowtSword
     100006: Spear
-    100008: Sword
-    100010: //RootNode
+    100008: Spear_Mirrored
+    100010: Sword
+    100012: //RootNode
     400000: Axe
     400002: BotHear
     400004: ShowtSword
     400006: Spear
-    400008: Sword
-    400010: //RootNode
+    400008: Spear_Mirrored
+    400010: Sword
+    400012: //RootNode
     2300000: Axe
     2300002: BotHear
     2300004: ShowtSword
     2300006: Spear
-    2300008: Sword
+    2300008: Spear_Mirrored
+    2300010: Sword
     3300000: Axe
     3300002: BotHear
     3300004: ShowtSword
     3300006: Spear
-    3300008: Sword
-    4300000: Spear
-    4300002: BotHear
-    4300004: Axe
-    4300006: ShowtSword
-    4300008: Sword
+    3300008: Spear_Mirrored
+    3300010: Sword
+    4300000: Spear_Mirrored
+    4300002: Spear
+    4300004: BotHear
+    4300006: Axe
+    4300008: ShowtSword
+    4300010: Sword
     7400000: Default Take
     9500000: //RootNode
   materials:

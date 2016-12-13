@@ -34,6 +34,10 @@ public class MenuManager : MonoBehaviour {
 
     void Start()
     {
+        players = new List<int>();
+        colors = new List<Color>();
+        playerObjs = new List<Player>();
+
         source = GetComponent<AudioSource>();
         InputManager.Load();
         selector = FindObjectOfType<ModeSelector>();
@@ -95,10 +99,8 @@ public class MenuManager : MonoBehaviour {
             SceneManager.SetActiveScene(SceneManager.GetSceneAt(1));
             StartCoroutine(InitializeMap());
         }
-        else
-        {
-            Destroy(this);
-        }
+
+        SceneManager.sceneLoaded -= SceneManager_sceneLoaded;
     }
 
     IEnumerator InitializeMap()

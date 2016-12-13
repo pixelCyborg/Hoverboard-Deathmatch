@@ -1656,6 +1656,8 @@ MonoBehaviour:
   shakeDuration: 0
   smooth: 0
   smoothAmount: 5
+  testAmount: 5
+  testTime: 0.5
 --- !u!114 &114000011981856112
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1686,8 +1688,8 @@ MonoBehaviour:
   controlType: 0
   rootLeanMax: 0.2
   moveDirection: {x: 0, y: 0, z: 0}
-  angularStability: 2
-  correctionSpeed: 1
+  angularStability: 0.5
+  correctionSpeed: 0.25
 --- !u!114 &114000012931125878
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1747,6 +1749,7 @@ MonoBehaviour:
   sprintFOV: 100
   defaultFOV: 0
   targetFOV: 0
+  shakeOffset: {x: 0, y: 0, z: 0}
 --- !u!124 &124000010426013346
 Behaviour:
   m_ObjectHideFlags: 1

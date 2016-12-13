@@ -531,7 +531,6 @@ GameObject:
   - 135: {fileID: 135000013260280330}
   - 135: {fileID: 135000012739351952}
   - 135: {fileID: 135000011050137360}
-  - 114: {fileID: 114000014129749734}
   - 82: {fileID: 82000013174353408}
   m_Layer: 10
   m_Name: Player
@@ -1432,7 +1431,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 10
+  m_AngularDrag: 0.2
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
@@ -2345,38 +2344,6 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
---- !u!114 &114000014129749734
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1000013059867302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SceneId:
-    m_Value: 0
-  m_AssetId:
-    i0: 23
-    i1: 54
-    i2: 245
-    i3: 68
-    i4: 191
-    i5: 97
-    i6: 77
-    i7: 36
-    i8: 25
-    i9: 130
-    i10: 60
-    i11: 157
-    i12: 245
-    i13: 193
-    i14: 241
-    i15: 223
-  m_ServerOnly: 0
-  m_LocalPlayerAuthority: 0
 --- !u!124 &124000010584201060
 Behaviour:
   m_ObjectHideFlags: 1

@@ -32,7 +32,7 @@ public class Weapon : MonoBehaviour {
     {
         //myCollider = GetComponent<Collider>();
         body = GetComponent<Rigidbody>();
-        trail = GetComponent<TrailRenderer>();
+        trail = GetComponentInChildren<TrailRenderer>();
     }
 
     void Update()
@@ -86,6 +86,14 @@ public class Weapon : MonoBehaviour {
     {
         if (!active && assignedSlot == null && !weaponUsed)
         {
+            if(trail == null)
+            {
+                trail = GetComponentInChildren<TrailRenderer>();
+            }
+            if (trail)
+            {
+                trail.enabled = true;
+            }
             transform.SetParent(null);
             body.useGravity = false;
             myCollider.isTrigger = true;
@@ -98,6 +106,10 @@ public class Weapon : MonoBehaviour {
 
     public void Drop(CombatController controller)
     {
+        if (trail)
+        {
+            trail.enabled = false;
+        }
         body.useGravity = true;
         body.constraints = RigidbodyConstraints.None;
         assignedSlot = null;
@@ -160,6 +172,10 @@ public class Weapon : MonoBehaviour {
             transform.SetParent(controller.hitSlot);
         }
         yield return new WaitForSeconds(1.0f);
+        if (trail)
+        {
+            trail.enabled = false;
+        }
         controller.Damage(damage, lastUser);
         GameObject explode = Instantiate(explosion, transform.position, Quaternion.identity) as GameObject;
         explosion.transform.position = transform.position;
