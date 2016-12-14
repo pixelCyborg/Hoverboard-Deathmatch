@@ -2357,7 +2357,7 @@ SphereCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013059867302}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c8ecfbaff1d452c458264b3f59176a73, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2369,7 +2369,7 @@ SphereCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013059867302}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c8ecfbaff1d452c458264b3f59176a73, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2381,7 +2381,7 @@ SphereCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013059867302}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c8ecfbaff1d452c458264b3f59176a73, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2405,7 +2405,7 @@ SphereCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000013059867302}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: c8ecfbaff1d452c458264b3f59176a73, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -3090,7 +3090,7 @@ ParticleSystem:
         m_RotationOrder: 4
       minMaxState: 0
     startSpeed:
-      scalar: 5
+      scalar: 3
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3216,7 +3216,7 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       minMaxState: 0
     startSize:
-      scalar: 1.2
+      scalar: 0.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -3232,7 +3232,7 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - time: 0
-          value: 0.41666666
+          value: 0.4
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -3679,7 +3679,7 @@ ParticleSystem:
       minMaxState: 0
     separateAxes: 0
   ColorModule:
-    enabled: 0
+    enabled: 1
     gradient:
       serializedVersion: 2
       maxGradient:
@@ -3688,7 +3688,7 @@ ParticleSystem:
           rgba: 4294967295
         key1:
           serializedVersion: 2
-          rgba: 4294967295
+          rgba: 0
         key2:
           serializedVersion: 2
           rgba: 0
@@ -3708,7 +3708,7 @@ ParticleSystem:
           serializedVersion: 2
           rgba: 0
         ctime0: 0
-        ctime1: 65535
+        ctime1: 39321
         ctime2: 0
         ctime3: 0
         ctime4: 0

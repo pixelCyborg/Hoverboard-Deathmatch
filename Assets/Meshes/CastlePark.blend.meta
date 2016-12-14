@@ -1,0 +1,157 @@
+fileFormatVersion: 2
+guid: 71990830185341245ac161d64f44355f
+timeCreated: 1481615611
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Central_First_Floor
+    100004: Central_Second_Floor
+    100006: Oil_Drum
+    100008: Quarter_Bowl
+    100010: Quarter_Pipe_001
+    100012: Quarter_Pipe_Long
+    100014: Quarter_Pipe_Long_001
+    100016: Walls
+    100018: Cube
+    100020: Large_Pipe
+    100022: Oil_Drum_001
+    100024: Oil_Drum_002
+    100026: Plank
+    100028: Sphere
+    100030: Straight_Ramp
+    100032: Straight_Ramp_001
+    400000: //RootNode
+    400002: Central_First_Floor
+    400004: Central_Second_Floor
+    400006: Oil_Drum
+    400008: Quarter_Bowl
+    400010: Quarter_Pipe_001
+    400012: Quarter_Pipe_Long
+    400014: Quarter_Pipe_Long_001
+    400016: Walls
+    400018: Cube
+    400020: Large_Pipe
+    400022: Oil_Drum_001
+    400024: Oil_Drum_002
+    400026: Plank
+    400028: Sphere
+    400030: Straight_Ramp
+    400032: Straight_Ramp_001
+    2300000: //RootNode
+    2300002: Central_First_Floor
+    2300004: Central_Second_Floor
+    2300006: Oil_Drum
+    2300008: Quarter_Bowl
+    2300010: Quarter_Pipe_001
+    2300012: Quarter_Pipe_Long
+    2300014: Quarter_Pipe_Long_001
+    2300016: Walls
+    2300018: Cube
+    2300020: Large_Pipe
+    2300022: Oil_Drum_001
+    2300024: Oil_Drum_002
+    2300026: Plank
+    2300028: Sphere
+    2300030: Straight_Ramp
+    2300032: Straight_Ramp_001
+    3300000: //RootNode
+    3300002: Central_First_Floor
+    3300004: Central_Second_Floor
+    3300006: Oil_Drum
+    3300008: Quarter_Bowl
+    3300010: Quarter_Pipe_001
+    3300012: Quarter_Pipe_Long
+    3300014: Quarter_Pipe_Long_001
+    3300016: Walls
+    3300018: Cube
+    3300020: Large_Pipe
+    3300022: Oil_Drum_001
+    3300024: Oil_Drum_002
+    3300026: Plank
+    3300028: Sphere
+    3300030: Straight_Ramp
+    3300032: Straight_Ramp_001
+    4300000: Cube
+    4300002: Quarter_Pipe_Long_001
+    4300004: Quarter_Pipe_001
+    4300006: Quarter_Pipe_Long
+    4300008: Walls
+    4300010: Quarter_Bowl
+    4300012: Oil_Drum
+    4300014: Central_First_Floor
+    4300016: Central_Second_Floor
+    4300018: Sphere
+    4300020: Straight_Ramp_001
+    4300022: Straight_Ramp
+    4300024: Oil_Drum_002
+    4300026: Oil_Drum_001
+    4300028: Plank
+    4300030: Large_Pipe
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 5
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

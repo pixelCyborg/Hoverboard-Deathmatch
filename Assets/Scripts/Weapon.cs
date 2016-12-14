@@ -49,8 +49,9 @@ public class Weapon : MonoBehaviour {
 
     void OnCollisionEnter(Collision col)
     {
-        if(active && col.transform.tag == "Ground")
+        if(active && col.gameObject.layer == LayerMask.NameToLayer("Terrain"))
         {
+            Debug.Log("Setting inactive");
             StartCoroutine(SetInactive());
         }
 
@@ -67,6 +68,10 @@ public class Weapon : MonoBehaviour {
     {
         yield return new WaitForSeconds(1.0f);
         active = false;
+        if (trail)
+        {
+            trail.enabled = false;
+        }
         IgnoreCollisionWithUser(false);
     }
 
@@ -106,10 +111,6 @@ public class Weapon : MonoBehaviour {
 
     public void Drop(CombatController controller)
     {
-        if (trail)
-        {
-            trail.enabled = false;
-        }
         body.useGravity = true;
         body.constraints = RigidbodyConstraints.None;
         assignedSlot = null;

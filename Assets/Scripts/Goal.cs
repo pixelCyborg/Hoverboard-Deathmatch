@@ -96,7 +96,7 @@ public class Goal : MonoBehaviour {
         winImage.GetComponentInChildren<Text>().text = "Player " + (playerNum+1) + " Wins!";
         winImage.DOFade(1.0f, 5.0f).OnComplete(() =>
         {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene(0);
         });
         
     }

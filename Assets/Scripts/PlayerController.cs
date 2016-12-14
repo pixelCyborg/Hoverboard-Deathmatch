@@ -26,7 +26,6 @@ public class PlayerController : MonoBehaviour {
     public ControlType controlType;
     public Player player;
     private string playerControlString = "";
-    LayerMask obstacleMask;
     private bool charging = false;
     private bool pushingStick = false;
 
@@ -63,8 +62,6 @@ public class PlayerController : MonoBehaviour {
         movement = GetComponent<MovementController>();
         combat = GetComponent<CombatController>();
         movement.controlType = controlType;
-        obstacleMask = ~(1 << LayerMask.NameToLayer("Obstacle"));
-        //obstacleMask = ~obstacleMask;
         aimReticle = transform.Find("AimReticle");
         reticleRend = aimReticle.GetComponent<Renderer>();
         playerCam = transform.parent.GetComponentInChildren<ThirdPersonOrbitCam>();
@@ -155,17 +152,6 @@ public class PlayerController : MonoBehaviour {
         }
         if(InputManager.GetButtonUp("Fire" + playerControlString))
         {
-            /*if (controlType == ControlType.Keyboard)
-            {
-                RaycastHit hit;
-                target = Vector3.zero;
-                Physics.Raycast(myCamera.ScreenPointToRay(Input.mousePosition), out hit, 1000, obstacleMask);
-                target = hit.point;
-                target.y += 1;
-                //target.y = transform.position.y;
-                combat.Attack(target);
-            }
-            else*/
             {
                 Vector3 target = Vector3.zero;
                 Transform camTransform = myCamera.transform;

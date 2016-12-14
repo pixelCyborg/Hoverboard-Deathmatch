@@ -351,22 +351,27 @@ namespace TeamUtility.IO
 			for(int i = scanStart; i < scanEnd; i++)
 			{
 				axisRaw = Input.GetAxisRaw(_rawJoystickAxes[i]);
-				if(Mathf.Abs(axisRaw) >= 1.0f)
+				if(Mathf.Abs(axisRaw) >= 0.8f)
 				{
-					_scanResult.scanFlags = ScanFlags.JoystickAxis;
-					_scanResult.key = KeyCode.None;
-					_scanResult.joystick = i / AxisConfiguration.MaxJoystickAxes;
-					_scanResult.joystickAxis = i % AxisConfiguration.MaxJoystickAxes;
-					_scanResult.joystickAxisValue = axisRaw;
-					_scanResult.mouseAxis = -1;
-					_scanResult.userData = _scanUserData;
-					if(_scanHandler(_scanResult))
-					{
-						_scanHandler = null;
-						_scanResult.userData = null;
-						_scanFlags = ScanFlags.None;
-						return true;
-					}
+
+                    //We have to double check to make sure it's not a trigger here
+                    if (axisRaw != -1)
+                    {
+                        _scanResult.scanFlags = ScanFlags.JoystickAxis;
+                        _scanResult.key = KeyCode.None;
+                        _scanResult.joystick = i / AxisConfiguration.MaxJoystickAxes;
+                        _scanResult.joystickAxis = i % AxisConfiguration.MaxJoystickAxes;
+                        _scanResult.joystickAxisValue = axisRaw;
+                        _scanResult.mouseAxis = -1;
+                        _scanResult.userData = _scanUserData;
+                        if (_scanHandler(_scanResult))
+                        {
+                            _scanHandler = null;
+                            _scanResult.userData = null;
+                            _scanFlags = ScanFlags.None;
+                            return true;
+                        }
+                    }
 				}
 			}
 			

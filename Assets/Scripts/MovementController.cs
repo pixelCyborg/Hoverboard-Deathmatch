@@ -46,13 +46,11 @@ public class MovementController : MonoBehaviour {
     public Vector3 moveDirection = Vector3.zero;
 
     LayerMask groundmask;
-    LayerMask obstacleMask;
 
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>();
         groundmask = 1 << LayerMask.NameToLayer("Terrain");
-        obstacleMask = 1 << LayerMask.NameToLayer("Obstacle");
         oldPosition = transform.position;
         origTurnMax = turnMax;
         origTurnSpeed = turnSpeed;
@@ -99,6 +97,7 @@ public class MovementController : MonoBehaviour {
                     turnMax = origTurnMax;
                 }
 
+                //PhysicsMove();
                 Move();
                 Turn();
             }
@@ -165,7 +164,7 @@ public class MovementController : MonoBehaviour {
         if (velocity > topSpeed) velocity = topSpeed;
         else if (velocity < -topSpeed) velocity = -topSpeed;
         Vector3 flatForward = transform.forward;
-        flatForward.y *= 0.33f;
+        //flatForward.y *= 0.33f;
         //If were moving forward calculate the direction to go in
         velDirection = (flatForward * velocity + velDirection) / 2;
 
@@ -173,11 +172,39 @@ public class MovementController : MonoBehaviour {
 
         RaycastHit hit;
         Debug.DrawRay(transform.position + Vector3.up * 5, transform.forward * 3, Color.red, 0.1f);
-        if (!Physics.Raycast(transform.position, transform.forward, out hit, 3, groundmask)) {
+        //if (!Physics.Raycast(transform.position, transform.forward, out hit, 3, groundmask)) {
             body.MovePosition(targetPosition);
+        //}
+
+        engineNoise.pitch = Mathf.Lerp(engineNoise.pitch, 0.8f + ((velocity * velocity) + Mathf.Abs(turnVel)) * 0.00066f, Time.deltaTime * 2);
+        oldPosition = transform.position;
+        oldVelocity = oldPosition - transform.position;
+    }
+
+    void PhysicsMove()
+    {
+        velocity *= decellerationFactor;
+        if (thrust < 0)
+        {
+            thrust = 0;
+            velocity *= decellerationFactor * decellerationFactor;
         }
 
-        engineNoise.pitch = Mathf.Lerp(engineNoise.pitch, 0.8f + ((velocity * 2) * Mathf.Abs(turnVel / 2.0f)) * 0.00066f, Time.deltaTime * 2);
+        //Calculate velocity
+        velocity += (thrust * acceleration);
+        //Limit the velocity
+        if (velocity > topSpeed) velocity = topSpeed;
+        else if (velocity < -topSpeed) velocity = -topSpeed;
+
+        RaycastHit hit;
+        Debug.DrawRay(transform.position + Vector3.up * 5, transform.forward * 3, Color.red, 0.1f);
+        if (!Physics.Raycast(transform.position, transform.forward, out hit, 3, groundmask))
+        {
+            //body.MovePosition(targetPosition);
+            body.AddForce(transform.forward * velocity * Time.deltaTime, ForceMode.Impulse);
+        }
+
+        engineNoise.pitch = Mathf.Lerp(engineNoise.pitch, 0.8f + ((velocity * velocity) + Mathf.Abs(turnVel)) * 0.00066f, Time.deltaTime * 2);
         oldPosition = transform.position;
         oldVelocity = oldPosition - transform.position;
     }
@@ -209,10 +236,26 @@ public class MovementController : MonoBehaviour {
 
     public float angularStability = 0.3f;
     public float correctionSpeed = 2.0f;
+    RaycastHit hit;
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (Physics.Raycast(transform.position, Vector3.down, 3.0f, groundmask))
+        if (Physics.Raycast(transform.position, Vector3.down, out hit, 3.0f, groundmask))
+        {
+            correctionSpeed = Mathf.Lerp(correctionSpeed, Vector3.Angle(Vector3.up, transform.up) / 2, Time.fixedDeltaTime);
+            if (correctionSpeed < 1) correctionSpeed = 1;
+            //        Debug.Log(correctionSpeed);
+
+            Vector3 predictedUp = Quaternion.AngleAxis(
+                body.angularVelocity.magnitude * Mathf.Rad2Deg * angularStability / correctionSpeed,
+                body.angularVelocity
+            ) * transform.up;
+
+            Vector3 torqueVector = Vector3.Cross(predictedUp, Vector3.up);
+            body.AddTorque(torqueVector * correctionSpeed * correctionSpeed);
+            body.AddForce(Vector3.down * 5);
+        }
+        else
         {
             correctionSpeed = Mathf.Lerp(correctionSpeed, Vector3.Angle(Vector3.up, transform.up) / 2, Time.fixedDeltaTime);
             if (correctionSpeed < 1) correctionSpeed = 1;
@@ -223,7 +266,8 @@ public class MovementController : MonoBehaviour {
                 body.angularVelocity
             ) * transform.up;
             Vector3 torqueVector = Vector3.Cross(predictedUp, Vector3.up);
-            body.AddTorque(torqueVector * correctionSpeed * correctionSpeed);
+            float adjustedCorrection = correctionSpeed * 0.5f;
+            body.AddTorque(torqueVector * adjustedCorrection * adjustedCorrection);
         }
     }
 

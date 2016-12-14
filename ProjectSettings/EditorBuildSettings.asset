@@ -8,4 +8,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Levels/MainMenu.unity
   - enabled: 1
+    path: Assets/Levels/Castle.unity
+  - enabled: 0
     path: Assets/Levels/4 Player Arena.unity

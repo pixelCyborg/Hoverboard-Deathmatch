@@ -163,6 +163,28 @@ public class ControlConfig : MonoBehaviour {
                 }
             }
         }
+        else
+        {
+            float vertValue = InputManager.GetAxis("Vertical PLAYER_" + (playerNum + 1));
+            if (vertValue > 0.9f)
+            {
+                if (!axisActive)
+                {
+                    axisActive = true;
+                }
+            }
+            else if (vertValue < -0.9f)
+            {
+                if (!axisActive)
+                {
+                    axisActive = true;
+                }
+            }
+            else
+            {
+                axisActive = false;
+            }
+        }
     }
 
     public void ChangeControl()
