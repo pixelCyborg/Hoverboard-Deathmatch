@@ -81,11 +81,16 @@ public class MovementController : MonoBehaviour {
                 turnSpeed = origTurnSpeed * 1.5f;
                 turnMax = origTurnMax * 2;
 
+                if (velDirection == Vector3.zero)
+                {
+                    velDirection = body.velocity;
+                }
                 Drift();
                 Turn();
             }
             else
             {
+                velDirection = Vector3.zero;
                 if (velDirection.magnitude < 10)
                 {
                     turnSpeed = origTurnSpeed * 1.5f;
@@ -97,8 +102,8 @@ public class MovementController : MonoBehaviour {
                     turnMax = origTurnMax;
                 }
 
-                //PhysicsMove();
-                Move();
+                PhysicsMove();
+                //Move();
                 Turn();
             }
         }
@@ -113,72 +118,10 @@ public class MovementController : MonoBehaviour {
     void Drift()
     {
         velocity *= decellerationFactor + (decellerationFactor / 100.0f);
-        body.MovePosition(transform.position + (velDirection.normalized * velocity) * Time.deltaTime * 0.66f);
-    }
-
-    void MoveInDirection()
-    {
-        thrust *= decellerationFactor;
-        thrust += moveDirection.magnitude * acceleration;
-
-        if (moveDirection.magnitude > 0)
-        {
-            Vector3 targetDir = Vector3.RotateTowards(transform.forward, moveDirection, turnSpeed * 0.01f, turnMax * 0.1f);
-            transform.rotation = Quaternion.LookRotation(targetDir);
-        }
-        body.MovePosition(transform.position + transform.forward * thrust * 0.2f * Time.deltaTime);
-
-        /*        velocity *= decellerationFactor;
-                if (thrust < 0)
-                {
-                    thrust = 0;
-                }
-
-                //Calculate velocity
-                velocity += (thrust * acceleration);
-                //Limit the velocity
-                if (velocity > topSpeed) velocity = topSpeed;
-                else if (velocity < -topSpeed) velocity = -topSpeed;
-                //If were moving forward calculate the direction to go in
-                velDirection = (transform.forward * velocity + velDirection) / 2;
-
-                Vector3 targetPosition = transform.position + (velDirection.normalized * velocity * Time.deltaTime * 0.66f);
-                body.MovePosition(targetPosition);
-                oldPosition = transform.position;
-                oldVelocity = oldPosition - transform.position;
-        */
-    }
-
-    void Move()
-    {
-        velocity *= decellerationFactor;
-        if (thrust < 0)
-        {
-            thrust = 0;
-            velocity *= decellerationFactor * decellerationFactor;
-        }
-
-        //Calculate velocity
-        velocity += (thrust * acceleration);
-        //Limit the velocity
-        if (velocity > topSpeed) velocity = topSpeed;
-        else if (velocity < -topSpeed) velocity = -topSpeed;
-        Vector3 flatForward = transform.forward;
-        //flatForward.y *= 0.33f;
-        //If were moving forward calculate the direction to go in
-        velDirection = (flatForward * velocity + velDirection) / 2;
-
-        Vector3 targetPosition = transform.position + (velDirection.normalized * velocity * Time.deltaTime * 0.66f);
-
-        RaycastHit hit;
-        Debug.DrawRay(transform.position + Vector3.up * 5, transform.forward * 3, Color.red, 0.1f);
-        //if (!Physics.Raycast(transform.position, transform.forward, out hit, 3, groundmask)) {
-            body.MovePosition(targetPosition);
-        //}
-
-        engineNoise.pitch = Mathf.Lerp(engineNoise.pitch, 0.8f + ((velocity * velocity) + Mathf.Abs(turnVel)) * 0.00066f, Time.deltaTime * 2);
-        oldPosition = transform.position;
-        oldVelocity = oldPosition - transform.position;
+        Vector3 physicsVel = velDirection * (decellerationFactor + (decellerationFactor / 100.0f));
+        physicsVel.y = body.velocity.y;
+        body.velocity = physicsVel + (Physics.gravity * body.mass * Time.deltaTime);
+        velDirection = physicsVel;
     }
 
     void PhysicsMove()
@@ -196,13 +139,9 @@ public class MovementController : MonoBehaviour {
         if (velocity > topSpeed) velocity = topSpeed;
         else if (velocity < -topSpeed) velocity = -topSpeed;
 
-        RaycastHit hit;
-        Debug.DrawRay(transform.position + Vector3.up * 5, transform.forward * 3, Color.red, 0.1f);
-        if (!Physics.Raycast(transform.position, transform.forward, out hit, 3, groundmask))
-        {
-            //body.MovePosition(targetPosition);
-            body.AddForce(transform.forward * velocity * Time.deltaTime, ForceMode.Impulse);
-        }
+            Vector3 physicsVel = (transform.forward * velocity * 0.8f);
+            physicsVel.y = body.velocity.y;
+            body.velocity = physicsVel + (Physics.gravity * body.mass * Time.deltaTime);
 
         engineNoise.pitch = Mathf.Lerp(engineNoise.pitch, 0.8f + ((velocity * velocity) + Mathf.Abs(turnVel)) * 0.00066f, Time.deltaTime * 2);
         oldPosition = transform.position;
@@ -226,7 +165,7 @@ public class MovementController : MonoBehaviour {
             if (turnVel > turnMax * 0.2f) turnVel = turnMax * 0.2f;
             else if (turnVel < -turnMax * 0.2f) turnVel = -turnMax * 0.2f;
         }
-        body.MoveRotation(transform.rotation * Quaternion.Euler(new Vector3(0, turnVel * Time.deltaTime * 2.0f, 0)));
+        body.MoveRotation(transform.rotation * Quaternion.Euler(new Vector3(0, turn * turnSpeed * Time.deltaTime, 0)));
         if (Grounded())
         {
             TurnBoard(turn);

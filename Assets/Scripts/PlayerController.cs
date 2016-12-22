@@ -125,6 +125,14 @@ public class PlayerController : MonoBehaviour {
             return;
         }
         lookDirection = new Vector3(InputManager.GetAxis("LookHorizontal" + playerControlString), InputManager.GetAxis("LookVertical" + playerControlString), 0);
+        if(Mathf.Abs(lookDirection.x) < 0.2f)
+        {
+            lookDirection.x = 0;
+        }
+        if(Mathf.Abs(lookDirection.y) < 0.2f)
+        {
+            lookDirection.y = 0;
+        }
 
         if (InputManager.GetButtonDown("Boost" + playerControlString))
         {

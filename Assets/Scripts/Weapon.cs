@@ -190,10 +190,10 @@ public class Weapon : MonoBehaviour {
 
         if (type == WeaponType.Thrown)
         {
-            yield return new WaitForSeconds(0.9f);
             weaponUsed = true;
             active = false;
             MapController.SpawnSpear();
+            Destroy(gameObject);
         }
         //yield return new WaitForSeconds(5);
         //Destroy(explosion);
