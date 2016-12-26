@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿ using UnityEngine;
 using System.Collections;
 
 public class AiController : MonoBehaviour {
@@ -13,8 +13,10 @@ public class AiController : MonoBehaviour {
 
     public Transform target;
     LayerMask mask;
+    LayerMask obstacleMask;
 
     Collider[] nearbyPlayers;
+    bool turning;
 
 
     // Use this for initialization
@@ -22,9 +24,12 @@ public class AiController : MonoBehaviour {
     {
         movement = GetComponent<MovementController>();
         combat = GetComponent<CombatController>();
-        mask = LayerMask.NameToLayer("Player");
-        InvokeRepeating("TurnDecision", 0.2f, 2.0f);
-        InvokeRepeating("CheckForTargets", 0.2f, 2.0f);
+        mask = LayerMask.GetMask("Player");
+        obstacleMask = LayerMask.GetMask("Terrain");
+        turnSpeed = 0;
+        turning = false;
+        //InvokeRepeating("TurnDecision", 0.2f, 2.0f);
+        //InvokeRepeating("CheckForTargets", 0.2f, 2.0f);
     }
 
     // Update is called once per frame
@@ -44,29 +49,39 @@ public class AiController : MonoBehaviour {
             combat.Drop();
         }
 
-        if(target)
         {
-            if(Mathf.Abs(turnSpeed) < 1)
+            RaycastHit hit;
+            if(!turning)
             {
-                moveSpeed = 1;
+                moveSpeed = 0.8f;
+                turnSpeed = 0;
+                if (Physics.SphereCast(transform.position + Vector3.up * 4, 1.0f, transform.forward, out hit, 5.0f, obstacleMask))
+                {
+                    Debug.Log(hit.transform.name);
+                    Debug.Log("Theres something in front of me");
+                    StartCoroutine(Avoidance());
+                }
             }
             else
             {
-                moveSpeed = 0.5f;
+                moveSpeed = 0.2f;
             }
-
-            Vector3 targetDir = target.position - transform.position;
-            float angle = Vector3.Angle(targetDir, transform.forward);
-        }
-        else
-        {
-            moveSpeed = 1;
         }
 
         movement.turn = turnSpeed;
         movement.thrust = moveSpeed;
 
         oldThrowWeapon = throwWeapon;
+    }
+
+    IEnumerator Avoidance()
+    {
+        turning = true;
+        turnSpeed = Random.Range(60, 80);
+        turnSpeed *= Random.Range(0, 1) == 1 ? -1 : 1;
+        turnSpeed *= 0.01f;
+        yield return new WaitForSeconds(1.0f);
+        turning = false;
     }
 
     void CheckForTargets()

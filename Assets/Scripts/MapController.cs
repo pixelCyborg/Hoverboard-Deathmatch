@@ -11,6 +11,7 @@ public class MapController : MonoBehaviour {
     private static Transform ball;
 
     public GameObject playerPrefab;
+    public GameObject aiPrefab;
     //public Transform Characters;
 
     private static GameObject spearPrefab;
@@ -51,42 +52,57 @@ public class MapController : MonoBehaviour {
         ball.gameObject.SetActive(true);
     }
 
-    public void Initialize(int[] players, Color[] colors)
+    public void Initialize(int[] players, Color[] colors, Player[] playerObjs)
     {
-        for(int i = 0; i < players.Length; i++)
+        int playerLength = players.Length;
+        for (int i = 0; i < players.Length; i++)
+        {
+            if (playerObjs[i].isAi) playerLength--;
+        }
+
+            for (int i = 0; i < players.Length; i++)
         {
             if (players[i] != -1)
             {
-                GameObject player = Instantiate(playerPrefab);
+                GameObject player;
+                if(!MenuManager.playerObjs[i].isAi)
+                {
+                    player = Instantiate(playerPrefab);
+                    PlayerController control = player.GetComponentInChildren<PlayerController>();
+                    Camera playerCam = player.GetComponentInChildren<Camera>();
+                    control.controlType = PlayerController.ControlType.Controller;
+
+                    if (players[i] == 1)
+                    {
+                        control.player = PlayerController.Player.One;
+                        playerCam.rect = GetCameraDimensions(1, playerLength);
+                    }
+                    else if (players[i] == 2)
+                    {
+                        control.player = PlayerController.Player.Two;
+                        playerCam.rect = GetCameraDimensions(2, playerLength);
+                    }
+                    else if (players[i] == 3)
+                    {
+                        control.player = PlayerController.Player.Three;
+                        playerCam.rect = GetCameraDimensions(3, playerLength);
+                    }
+                    else if (players[i] == 4)
+                    {
+                        control.player = PlayerController.Player.Four;
+                        playerCam.rect = GetCameraDimensions(4, playerLength);
+                    }
+                    control.playerColor = colors[i];
+                    control.Initialize();
+
+                }
+                else
+                {
+                    player = Instantiate(aiPrefab);
+                }
                 SceneManager.MoveGameObjectToScene(player, gameObject.scene);
-                PlayerController control = player.GetComponentInChildren<PlayerController>();
-                Camera playerCam = player.GetComponentInChildren<Camera>();
 
                 player.transform.position = spawnPoints[i].transform.position;
-                control.controlType = PlayerController.ControlType.Controller;
-
-                if (players[i] == 1)
-                {
-                    control.player = PlayerController.Player.One;
-                    playerCam.rect = GetCameraDimensions(1, players.Length);
-                }
-                else if (players[i] == 2)
-                {
-                    control.player = PlayerController.Player.Two;
-                    playerCam.rect = GetCameraDimensions(2, players.Length);
-                }
-                else if (players[i] == 3)
-                {
-                    control.player = PlayerController.Player.Three;
-                    playerCam.rect = GetCameraDimensions(3, players.Length);
-                }
-                else if (players[i] == 4)
-                {
-                    control.player = PlayerController.Player.Four;
-                    playerCam.rect = GetCameraDimensions(4, players.Length);
-                }
-                control.playerColor = colors[i];
-                control.Initialize();
             }
         }
     }

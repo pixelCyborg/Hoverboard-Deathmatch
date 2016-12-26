@@ -107,7 +107,7 @@ public class MenuManager : MonoBehaviour {
     {
         yield return new WaitForEndOfFrame();
         yield return new WaitForEndOfFrame();
-        FindObjectOfType<MapController>().Initialize(players.ToArray(), colors.ToArray());
+        FindObjectOfType<MapController>().Initialize(players.ToArray(), colors.ToArray(), playerObjs.ToArray());
         Goal.mode = ModeSelector.gameMode;
         if(Goal.mode == Goal.GameMode.Deathmatch)
         {

@@ -105,6 +105,17 @@ public class PlayerSelect : MonoBehaviour {
         }
     }
 
+    public void ToggleAi(bool isAi)
+    {
+        for (int i = 0; i < MenuManager.players.Count; i++)
+        {
+            if(MenuManager.players[i] == number)
+            {
+                MenuManager.playerObjs[i].isAi = isAi;
+            }
+        }
+    }
+
     private void ColorSelecter()
     {
         colors = new List<RectTransform>();
