@@ -11,7 +11,7 @@ public class Goal : MonoBehaviour {
     ParticleSystem particles;
     public Image winImage;
     public int winScore = 5;
-    public enum GameMode { Oddball, Deathmatch, CTF };
+    public enum GameMode { Oddball, Deathmatch, CTF, Elimination };
     public static GameMode mode;
 
 	// Use this for initialization

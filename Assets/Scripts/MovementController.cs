@@ -47,13 +47,17 @@ public class MovementController : MonoBehaviour {
 
     LayerMask groundmask;
 
+    void Awake()
+    {
+        origTurnMax = turnMax;
+        origTurnSpeed = turnSpeed;
+    }
+
 	// Use this for initialization
 	void Start () {
         body = GetComponent<Rigidbody>();
         groundmask = 1 << LayerMask.NameToLayer("Terrain");
         oldPosition = transform.position;
-        origTurnMax = turnMax;
-        origTurnSpeed = turnSpeed;
         origAcceleration = acceleration;
         origTopSpeed = topSpeed;
         anim = GetComponentInChildren<Animator>();
@@ -78,7 +82,7 @@ public class MovementController : MonoBehaviour {
         {
             if (drifting && Grounded())
             {
-                turnSpeed = origTurnSpeed * 1.5f;
+                turnSpeed = origTurnSpeed * 1.8f;
                 turnMax = origTurnMax * 2;
 
                 if (velDirection == Vector3.zero)
@@ -91,12 +95,6 @@ public class MovementController : MonoBehaviour {
             else
             {
                 velDirection = Vector3.zero;
-                if (velDirection.magnitude < 10)
-                {
-                    turnSpeed = origTurnSpeed * 1.5f;
-                    turnMax = origTurnMax * 2;
-                }
-                else
                 {
                     turnSpeed = origTurnSpeed;
                     turnMax = origTurnMax;

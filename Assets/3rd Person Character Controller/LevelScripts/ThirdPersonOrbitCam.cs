@@ -16,6 +16,8 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 
 	public float horizontalAimingSpeed = 400f;
 	public float verticalAimingSpeed = 400f;
+    public float sensitivity = 1.0f;
+    public float origSensitivity;
 	public float maxVerticalAngle = 30f;
 	public float flyMaxVerticalAngle = 60f;
 	public float minVerticalAngle = -60f;
@@ -37,6 +39,7 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 
 	public float defaultFOV;
 	public float targetFOV;
+    public float zoomSpeed = 1.0f;
 
     public Vector3 shakeOffset;
 
@@ -52,12 +55,13 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 
 		defaultFOV = cam.GetComponent<Camera>().fieldOfView;
         targetFOV = defaultFOV;
+        origSensitivity = sensitivity;
 	}
 
 	public void LookUpdate(Vector3 lookDirection)
 	{
-		angleH += Mathf.Clamp(lookDirection.x, -1, 1) * horizontalAimingSpeed * Time.deltaTime;
-		angleV += Mathf.Clamp(lookDirection.y, -1, 1) * verticalAimingSpeed * Time.deltaTime;
+		angleH += Mathf.Clamp(lookDirection.x, -1, 1) * horizontalAimingSpeed * sensitivity * Time.deltaTime;
+		angleV += Mathf.Clamp(lookDirection.y, -1, 1) * verticalAimingSpeed * sensitivity * Time.deltaTime;
 		angleV = Mathf.Clamp(angleV, minVerticalAngle, maxVerticalAngle);
 
 
@@ -68,7 +72,7 @@ public class ThirdPersonOrbitCam : MonoBehaviour
 
 		targetPivotOffset = pivotOffset;
 		targetCamOffset = camOffset;
-		cam.GetComponent<Camera>().fieldOfView = Mathf.Lerp (cam.GetComponent<Camera>().fieldOfView, targetFOV,  Time.deltaTime);
+		cam.GetComponent<Camera>().fieldOfView = Mathf.Lerp (cam.GetComponent<Camera>().fieldOfView, targetFOV,  Time.deltaTime * zoomSpeed);
 
 		// Test for collision
 		Vector3 baseTempPosition = player.position + camYRotation * targetPivotOffset;

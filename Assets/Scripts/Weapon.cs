@@ -12,6 +12,7 @@ public class Weapon : MonoBehaviour {
     public float speed;
     public Collider myCollider;
     private Rigidbody body;
+    float origColRadius;
 
     public float maxCharge = 50.0f;
     private float chargeStart;
@@ -24,6 +25,7 @@ public class Weapon : MonoBehaviour {
     bool weaponUsed = false;
     public CombatController lastUser;
     TrailRenderer trail;
+    private float origColHeight;
 
     Vector3 oldVelocity;
     public GameObject explosion;
@@ -33,6 +35,8 @@ public class Weapon : MonoBehaviour {
         //myCollider = GetComponent<Collider>();
         body = GetComponent<Rigidbody>();
         trail = GetComponentInChildren<TrailRenderer>();
+        origColRadius = ((CapsuleCollider)myCollider).radius;
+        origColHeight = ((CapsuleCollider)myCollider).height;
     }
 
     void Update()
@@ -41,6 +45,26 @@ public class Weapon : MonoBehaviour {
         {
             transform.position = assignedSlot.position;
             transform.rotation = assignedSlot.rotation;
+        }
+    }
+
+    void FixedUpdate()
+    {
+        if (active)
+        {
+            RaycastHit hit;
+            if(Physics.SphereCast(transform.position, 3.0f, transform.forward, out hit, 10.0f))
+            {
+                if (hit.transform.tag == "Player")
+                {
+                    if (hit.transform.GetComponentInParent<CombatController>() != lastUser)
+                    {
+                        CombatController combat = hit.transform.GetComponentInParent<CombatController>();
+                        GetDamage(combat, hit);
+                    }
+                }
+            }
+           
         }
 
         lastLocation = transform.position;
@@ -147,14 +171,25 @@ public class Weapon : MonoBehaviour {
         IgnoreCollisionWithUser(controller, true);
         if (GetComponent<CapsuleCollider>())
         {
-            GetComponent<CapsuleCollider>().radius = 2f;
+            GetComponent<CapsuleCollider>().radius = 2.0f;
+            GetComponent<CapsuleCollider>().height = 10.0f;
         }
     }
 
     public void GetDamage(CombatController controller, Collision col)
     {
+        Debug.Log(col.gameObject.name);
         controller.hitSlot = col.contacts[0].otherCollider.transform;
         StartCoroutine(_GetDamage(controller, col.relativeVelocity));
+        assignedSlot = null;
+        //return damage;aw
+    }
+
+    public void GetDamage(CombatController controller, RaycastHit hit)
+    {
+        Debug.Log(hit.collider.gameObject.name);
+        controller.hitSlot = hit.transform;   //col.contacts[0].otherCollider.transform;
+        StartCoroutine(_GetDamage(controller, body.velocity * hit.distance));
         assignedSlot = null;
         //return damage;
     }
@@ -169,15 +204,16 @@ public class Weapon : MonoBehaviour {
             body.velocity = Vector3.zero;
             body.isKinematic = true;
             yield return new WaitForEndOfFrame();
-            transform.position = transform.position + transform.forward * 0.5f;
+            //transform.position = transform.position + transform.forward * 0.5f;
             transform.SetParent(controller.hitSlot);
+            transform.localPosition = -Vector3.forward * 1.5f;
         }
-        yield return new WaitForSeconds(1.0f);
         if (trail)
         {
             trail.enabled = false;
         }
         controller.Damage(damage, lastUser);
+        yield return new WaitForSeconds(1.0f);
         GameObject explode = Instantiate(explosion, transform.position, Quaternion.identity) as GameObject;
         explosion.transform.position = transform.position;
         yield return new WaitForEndOfFrame();
@@ -208,7 +244,8 @@ public class Weapon : MonoBehaviour {
     {
         if (GetComponent<CapsuleCollider>())
         {
-            GetComponent<CapsuleCollider>().radius = 0.5f;
+            GetComponent<CapsuleCollider>().radius = origColRadius;
+            GetComponent<CapsuleCollider>().height = origColHeight;
         }
         if (myCollider != null && ignoringColliders != null)
         {

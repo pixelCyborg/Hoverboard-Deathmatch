@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour {
     private Renderer reticleRend;
     private ThirdPersonOrbitCam playerCam;
     private PauseMenu pauseMenu;
+    private bool aiming;
 
     public enum ControlType
     {
@@ -136,7 +137,12 @@ public class PlayerController : MonoBehaviour {
 
         if (InputManager.GetButtonDown("Boost" + playerControlString))
         {
+            if (aiming)
+            {
+                EndAim();
+            }
             playerCam.targetFOV = playerCam.defaultFOV * 1.5f;
+            playerCam.zoomSpeed = 1.0f;
             movement.boosting = true;
         }
         if (InputManager.GetButtonUp("Boost" + playerControlString))
@@ -166,6 +172,21 @@ public class PlayerController : MonoBehaviour {
                 target = camTransform.position + camTransform.forward * 100;
                 combat.Attack(target);
             }
+        }
+
+        if(!movement.boosting)
+        {
+            if (InputManager.GetButtonDown("Aim" + playerControlString))
+            {
+                playerCam.zoomSpeed = 10.0f;
+
+                if (aiming) EndAim();
+                else StartAim();
+            }
+            /*else if (InputManager.GetButtonUp("Aim" + playerControlString))
+            {
+                EndAim();
+            }*/
         }
 
         /*
@@ -211,8 +232,17 @@ public class PlayerController : MonoBehaviour {
         //playerCam.LookUpdate(lookDirection);
     }
 
-    void OnDrawGizmos()
+    void StartAim()
     {
-        Gizmos.DrawSphere(target, 2.0f);
+        aiming = true;
+        playerCam.targetFOV = playerCam.defaultFOV * 0.66f;
+        playerCam.sensitivity = playerCam.origSensitivity * 0.33f;
+    }
+
+    void EndAim()
+    {
+        aiming = false;
+        playerCam.targetFOV = playerCam.defaultFOV;
+        playerCam.sensitivity = playerCam.origSensitivity;
     }
 }

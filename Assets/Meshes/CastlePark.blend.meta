@@ -22,6 +22,7 @@ ModelImporter:
     100028: Sphere
     100030: Straight_Ramp
     100032: Straight_Ramp_001
+    100034: Cube_001
     400000: //RootNode
     400002: Central_First_Floor
     400004: Central_Second_Floor
@@ -39,6 +40,7 @@ ModelImporter:
     400028: Sphere
     400030: Straight_Ramp
     400032: Straight_Ramp_001
+    400034: Cube_001
     2300000: //RootNode
     2300002: Central_First_Floor
     2300004: Central_Second_Floor
@@ -56,6 +58,7 @@ ModelImporter:
     2300028: Sphere
     2300030: Straight_Ramp
     2300032: Straight_Ramp_001
+    2300034: Cube_001
     3300000: //RootNode
     3300002: Central_First_Floor
     3300004: Central_Second_Floor
@@ -73,6 +76,7 @@ ModelImporter:
     3300028: Sphere
     3300030: Straight_Ramp
     3300032: Straight_Ramp_001
+    3300034: Cube_001
     4300000: Cube
     4300002: Quarter_Pipe_Long_001
     4300004: Quarter_Pipe_001
@@ -89,6 +93,7 @@ ModelImporter:
     4300026: Oil_Drum_001
     4300028: Plank
     4300030: Large_Pipe
+    4300032: Cube_001
     7400000: Default Take
     9500000: //RootNode
   materials:

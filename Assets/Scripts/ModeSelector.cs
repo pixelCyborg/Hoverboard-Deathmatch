@@ -5,8 +5,8 @@ using UnityEngine.UI;
 public class ModeSelector : MonoBehaviour {
     int currentMode = 0;
     public Text modeText;
-    Goal.GameMode[] modes = new Goal.GameMode[] { Goal.GameMode.Deathmatch, Goal.GameMode.Oddball };
-    string[] modeStrings = new string[] { "Deathmatch", "Oddball" };
+    Goal.GameMode[] modes = new Goal.GameMode[] { Goal.GameMode.Deathmatch };
+    string[] modeStrings = new string[] { "Deathmatch" };
 
     public static Goal.GameMode gameMode = Goal.GameMode.Deathmatch;
 

@@ -108,6 +108,7 @@ public class ControlConfig : MonoBehaviour {
                 }
                 else
                 {
+                    Debug.Log(child.name + " PLAYER_" + (playerNum + 1));
                     string buttonString = InputManager.GetAxisConfiguration("Unity-Imported", child.name + " PLAYER_" + (playerNum + 1)).positive.ToString();
                     if (buttonString.Length > 6)
                     {
